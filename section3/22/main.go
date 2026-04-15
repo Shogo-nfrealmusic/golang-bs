@@ -2,11 +2,10 @@ package main
 
 import "fmt"
 
-func foo(params ...int16) {
-	fmt.Println(len(params), params)
-}
-
 func main() {
-	foo(10, 20)
-	foo(10, 20, 30)
+	f := 1.11
+	fmt.Println(int(f))
+
+	m := map[string]int{"Mike": 20, "Nancy": 24, "Messi": 30}
+	fmt.Printf("%T %v", m, m)
 }
