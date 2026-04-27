@@ -3,6 +3,8 @@ module golang-bs
 go 1.26.2
 
 require (
+	github.com/markcheno/go-quote v0.0.0-20251022180205-ebbbbdb8e2b0 // indirect
+	github.com/markcheno/go-talib v0.0.0-20250114000313-ec55a20c902f // indirect
 	github.com/yuin/goldmark v1.7.13 // indirect
 	golang.org/x/mod v0.27.0 // indirect
 	golang.org/x/tools v0.36.1-0.20250903222949-a5c0eb837c9f // indirect

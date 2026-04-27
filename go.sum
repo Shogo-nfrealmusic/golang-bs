@@ -1,3 +1,7 @@
+github.com/markcheno/go-quote v0.0.0-20251022180205-ebbbbdb8e2b0 h1:PJSgOkus945aQTLDIwFay1giP+xKXSvM/x4n54+HWQE=
+github.com/markcheno/go-quote v0.0.0-20251022180205-ebbbbdb8e2b0/go.mod h1:XkWzl73UMsPUypTth1MHbTnSW6ydpD5qHdearJq3eaI=
+github.com/markcheno/go-talib v0.0.0-20250114000313-ec55a20c902f h1:iKq//xEUUaeRoXNcAshpK4W8eSm7HtgI0aNznWtX7lk=
+github.com/markcheno/go-talib v0.0.0-20250114000313-ec55a20c902f/go.mod h1:3YUtoVrKWu2ql+iAeRyepSz3fy6a+19hJzGS88+u4u0=
 github.com/yuin/goldmark v1.7.13 h1:GPddIs617DnBLFFVJFgpo1aBfe/4xcvMc3SB5t/D0pA=
 github.com/yuin/goldmark v1.7.13/go.mod h1:ip/1k0VRfGynBgxOz0yCqHrbZXhcjxyuS66Brc7iBKg=
 golang.org/x/mod v0.27.0 h1:kb+q2PyFnEADO2IEF935ehFUXlWiNjJWtRNgBLSfbxQ=
