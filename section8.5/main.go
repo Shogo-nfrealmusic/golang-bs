@@ -157,7 +157,7 @@ func (j *Jarvis) Respond(input string) string {
 	input = strings.ToLower(strings.TrimSpace(input))
 
 	switch {
-	case strings.Contains(input, "hello"), strings.Contains(input, "hi"), strings.Contains(input, "こんにちは"):
+	case strings.Contains(input, "hello"), strings.Contains(input, "hi"), strings.Contains(input, "おはようございます"):
 		return fmt.Sprintf("Hello, %s. How may I assist you today?", j.user)
 
 	case strings.Contains(input, "time"), strings.Contains(input, "時間"):
