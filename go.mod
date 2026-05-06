@@ -6,6 +6,7 @@ require (
 	github.com/brianolson/cbor_go v1.0.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/google/uuid v1.6.0 // indirect
+	github.com/gorilla/websocket v1.5.3 // indirect
 	github.com/markcheno/go-quote v0.0.0-20251022180205-ebbbbdb8e2b0 // indirect
 	github.com/markcheno/go-talib v0.0.0-20250114000313-ec55a20c902f // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
