@@ -1,0 +1,304 @@
+## v8.1.0
+November 17 2025
+
+#### Added
+- Add new logging system with `LoggerManager` supporting multiple custom loggers, structured log message types (network requests/responses, errors, user inputs), and PNLogger interface. Includes `DefaultLogger` with configurable log levels and detailed SDK operation logging. The new Config.Loggers field replaces deprecated Config.Log while maintaining backward compatibility.
+
+#### Modified
+- Refactor logs across the whole SDK. Now logs have dedicated structure and type, so only intended type will be printed. There is now much more logs, especially in internal systems.
+- Deprecate the old Logger. The old logger is still working (for backward compatibility) and is default to `PNLogLevelDebug`.
+
+## v8.0.0
+October 29 2025
+
+#### Added
+- Add `UseRawMessage` parameter to `SendFile` and `PublishFileMessage` functions - when enabled, message content is sent as-is without wrapping in a "text" JSON field.
+- Add `CustomMessageType` parameter to `PublishFileMessage` function to enable custom message type specification.
+- Add `Status` and `Type` fields to App Context objects (Channel and UUID Metadata, Channel Members and Memberships).
+- Add `IfMatchETag` method to `SetChannelMetadata` and `SetUUIDMetadata` to enable conditional updates that prevent overwriting metadata without fetching the latest version first.
+- The `HereNow` method now returns a maximum of 1,000 occupants per channel. Previously, it would return all occupants regardless of count. If you have channels with more than 1,000 occupants, you must use pagination (new `Limit` and `Offset` parameters) to retrieve the complete list. **BREAKING CHANGE**.
+- Add testable code snippets with examples for all API endpoints. Fix old snippets and remove outdated ones.
+
+#### Fixed
+- Fix bug where `ShouldStore` parameter was not being added to `SendFile` requests. Now correctly defaults to false. **BREAKING CHANGE**.
+- Fix bug where `SendFile` function was not including `Meta` and other parameters in the request.
+- Fix bug where `Fire` method was not correctly including `Meta` parameter in the request.
+
+#### Modified
+- Remove `PNPushTypeMPNS` push type entirely, deprecate `PNPushTypeGCM` and `PNPushTypeAPNS`, and add new `PNPushTypeFCM` type for Firebase Cloud Messaging. **BREAKING CHANGE**.
+- Change `PNPublishMessage.Text` parameter type from string to interface{} to enable sending arbitrary JSON types in published file messages. **BREAKING CHANGE**.
+- Remove not supported `Reverse` parameter from `Fetch` function. **BREAKING CHANGE**.
+- Rename status field to `Status` in response structures to fix JSON marshalling and linter errors.
+- Add missing unit and e2e tests for all API endpoints to improve code coverage.
+- Change testing script to use `GoTestSum` for improved test output formatting and readability.
+
+## v7.4.0
+September 11 2025
+
+#### Added
+- Add an `PNDisconnectedUnexpectedlyCategory ` announcement in case of server / connection errors after the initial / handshake subscription.
+
+#### Fixed
+- Fix deadlock that could happen during unsubscribe in `stopHeartbeatTimer` function.
+
+## v7.3.4
+May 08 2025
+
+#### Modified
+- Revert golang.org/x/net to the safest version.
+
+## v7.3.3
+May 07 2025
+
+#### Modified
+- Update Go SDK dependencies to fix Snyk vulnerability. Remove Gopkg files.
+
+## v7.3.2
+March 21 2025
+
+#### Fixed
+- Add handling panic while destroying the pubnub client in case pn.jobQueue is already closed. Thanks @piyushkumar96 for your contribution!. Fixed the following issues reported by [@piyushkumar96](https://github.com/piyushkumar96): [#161](https://github.com/pubnub/go/issues/161).
+
+## v7.3.1
+March 06 2025
+
+#### Modified
+- Update go sdk dependencies to fix GH Dependabot vulnerabilities (end of support for Go 1.16 and 1.17).
+
+## v7.3.0
+December 10 2024
+
+#### Added
+- Add `CustomMessageType` to messages and files.
+
+## v7.2.1
+November 27 2023
+
+#### Fixed
+- Handle unencrypted message while getting messages with crypto.
+
+## v7.2.0
+October 16 2023
+
+#### Added
+- Update the crypto module structure and add enhanced AES-CBC cryptor.
+
+#### Fixed
+- Improved security of crypto implementation by increasing the cipher key entropy by a factor of two.
+
+## v7.1.2
+May 11 2023
+
+#### Fixed
+- Use http client configured for subscribe calls to make subscribe calls.
+
+## v7.1.1
+March 07 2023
+
+#### Fixed
+- Undeprecate Grant Token methods.
+- Bump dependencies to avoid vulnerabilities.
+
+## v7.1.0
+August 09 2022
+
+#### Added
+- Add support for spaces and users permissions in GrantToken.
+- Add new Get/SetUserId and NewConfigWithUserId factory method for Config. Deprecate UUID.
+
+## v7.0.3
+May 04 2022
+
+#### Fixed
+- Set default limit for object calls with context.
+- All channel groups management operations could double escape some  characters which could cause signature problems.
+
+## v7.0.2
+March 17 2022
+
+#### Fixed
+- Send region on subscribe calls.
+- Close idle connections to free up goroutines when closing PubNub.
+
+## v7.0.1
+February 08 2022
+
+#### Fixed
+- Omit empty optional parameters for UUID or channel metadata.
+
+## v7.0.0
+January 06 2022
+
+#### Modified
+- BREAKING CHANGES: UUID is not automatically generated by the SDK anymore. Please set it in the PNConfig before instantiating the PubNub object. If UUID is empty panic will occur.
+
+## v6.1.0
+December 16 2021
+
+#### Added
+- Add revoke token feature.
+
+## v6.0.2
+November 24 2021
+
+#### Fixed
+- Fix edge case in Fetch response when filesPayload message is nil.
+
+## [v6.0.1](https://github.com/pubnub/go/releases/tag/v6.0.1)
+October-13-2021
+
+#### Fixed
+- Using correct major version number in imports. 
+
+## [v6.0.0](https://github.com/pubnub/go/releases/tag/v6.0.0)
+October-12-2021
+
+#### Added
+- Add grantToken functionality (PAMv3). Method grantToken has been added. It allows generation of signed token with permissions for channels and channel groups. 
+- Acceptance tests plugged into CI pipeline. 
+
+## [v5.0.3](https://github.com/pubnub/go/releases/tag/v5.0.3)
+June-1-2021
+
+#### Fixed
+- Bump version. 
+
+## [v5.0.2](https://github.com/pubnub/go/releases/tag/v5.0.2)
+May-27-2021
+
+#### Fixed
+- Go mod file fix. 
+
+## [v5.0.0](https://github.com/pubnub/go/releases/tag/v5.0.0)
+May-27-2021
+
+#### Added
+- Update Go SDK Metadata. 
+
+#### Modified
+- BREAKING CHANGE - IV used for encryption is now random by default. 
+- BREAKING CHANGE - The SDK now suppoorts Go Modules. 
+
+#### Fixed
+- Presence event occupancy field parsed incorrectly. 
+
+## [v4.10.0](https://github.com/pubnub/go/releases/tag/v4.10.0)
+November-2-2020
+
+#### Added
+- Objects v2 PAM changes. 
+
+#### Modified
+- Fetch with 100 messages. 
+- Include timetoken in send file. 
+- Readme updates. 
+
+#### Fixed
+- Read Publish File Message retry count from config. 
+
+## [v4.9.1](https://github.com/pubnub/go/releases/tag/v4.9.1)
+October-1-2020
+
+#### Fixed
+- Fix for a deadlock on destroy. 
+- Fetch response nil check. 
+
+## [v4.9.0](https://github.com/pubnub/go/releases/tag/v4.9.0)
+August-11-2020
+
+#### Added
+- History v3 with UUID and MessageType. 
+
+#### Modified
+- PNPublishMessage struct changes, PublishFile enhancements. 
+
+## [v4.8.0](https://github.com/pubnub/go/releases/tag/v4.8.0)
+July-24-2020
+
+#### Added
+- Files: Allows users to upload and share files.
+
+#### Modified
+- BREAKING CHANGE: EncryptString and DecryptString functions now accept a third param - bool, if true the IV is random and is sent along with the message. Default is false. 
+
+#### Fixed
+- BREAKING CHANGE: runes to string converion now returns string, this mostly affect the validation responses. This makes the SDK compatible with Go 1.15. 
+
+## [v4.7.0](https://github.com/pubnub/go/releases/tag/v4.7.0)
+June-10-2020
+
+#### Added
+- BREAKING CHANGE: This version does not support Objects v1 (beta). 
+
+## [v4.6.6](https://github.com/pubnub/go/tree/v4.6.6)
+  Apr-9-2020 
+
+## [v4.6.5](https://github.com/pubnub/go/tree/v4.6.5)
+  March-26-2020 
+
+## [v4.6.4](https://github.com/pubnub/go/tree/v4.6.4)
+  February-5-2020 
+
+## [v4.6.3](https://github.com/pubnub/go/tree/v4.6.3)
+  January-28-2020 
+
+## [v4.6.2](https://github.com/pubnub/go/tree/v4.6.2)
+  January-22-2020 
+
+## [v4.6.1](https://github.com/pubnub/go/tree/v4.6.1)
+  January-3-2020 
+
+## [v4.6.0](https://github.com/pubnub/go/tree/v4.6.0)
+  December-17-2019
+
+## [v4.5.2](https://github.com/pubnub/go/tree/v4.5.2)
+  November-27-2019
+
+## [v4.5.1](https://github.com/pubnub/go/tree/v4.5.1)
+  October-16-2019
+
+## [v4.5.0](https://github.com/pubnub/go/tree/v4.5.0)
+  October-8-2019
+
+## [v4.4.0](https://github.com/pubnub/go/tree/v4.4.0)
+  October-7-2019
+
+## [v4.3.1](https://github.com/pubnub/go/tree/v4.3.1)
+  October-2-2019
+
+## [v4.3.0](https://github.com/pubnub/go/tree/v4.3.0)
+  Septempber-23-2019
+
+## [v4.2.7](https://github.com/pubnub/go/tree/v4.2.7)
+  August-28-2019
+
+- Add Objects method features
+
+## [v4.0.0-beta.5](https://github.com/pubnub/go/tree/v4.0.0-beta.5)
+  January-9-2018
+
+- Add subscribe builder
+
+## [v4.0.0-beta.4](https://github.com/pubnub/go/tree/v4.0.0-beta.4)
+ December-20-2017
+
+- Add Telemetry Manager
+
+## [v4.0.0-beta.3](https://github.com/pubnub/go/tree/v4.0.0-beta.3)
+ December-20-2017
+
+- Add Destroy() method
+
+## [v4.0.0-beta.2](https://github.com/pubnub/go/tree/v4.0.0-beta.2)
+ November-7-2017
+
+- Add reconnection manager
+- Add HistoryDelete method
+- Add demo app
+- Rename channel group methods
+- Fix signature generation
+
+## [v4.0.0-beta](https://github.com/pubnub/go/tree/v4.0.0-beta)
+ October-4-2017
+
+- Beta release

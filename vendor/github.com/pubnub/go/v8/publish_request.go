@@ -1,0 +1,434 @@
+package pubnub
+
+import (
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"io"
+	"reflect"
+	"strconv"
+
+	"github.com/pubnub/go/v8/pnerr"
+	"github.com/pubnub/go/v8/utils"
+
+	"net/http"
+	"net/url"
+)
+
+const publishGetPath = "/publish/%s/%s/0/%s/%s/%s"
+const publishPostPath = "/publish/%s/%s/0/%s/%s"
+
+var emptyPublishResponse *PublishResponse
+
+type publishOpts struct {
+	endpointOpts
+
+	TTL     int
+	Channel string
+	Message interface{}
+	Meta    interface{}
+
+	UsePost        bool
+	ShouldStore    bool
+	Serialize      bool
+	DoNotReplicate bool
+	QueryParam     map[string]string
+
+	CustomMessageType string
+
+	Transport http.RoundTripper
+
+	// nil hacks
+	setTTL         bool
+	setShouldStore bool
+}
+
+// PublishResponse is the response after the execution on Publish and Fire operations.
+type PublishResponse struct {
+	Timestamp int64
+}
+
+type publishBuilder struct {
+	opts *publishOpts
+}
+
+func newPublishResponse(jsonBytes []byte, status StatusResponse, loggerMgr *loggerManager) (
+	*PublishResponse, StatusResponse, error) {
+	var value []interface{}
+
+	err := unmarshalWithLogging(jsonBytes, &value, loggerMgr, "Publish")
+	if err != nil {
+		e := pnerr.NewResponseParsingError("Error unmarshalling response",
+			io.NopCloser(bytes.NewBufferString(string(jsonBytes))), err)
+
+		return emptyPublishResponse, status, e
+	}
+
+	timeString, ok := value[2].(string)
+	if !ok {
+		return emptyPublishResponse, status, pnerr.NewResponseParsingError(fmt.Sprintf("Error unmarshalling response, %s %v", value[2], value), nil, nil)
+	}
+	timestamp, err := strconv.ParseInt(timeString, 10, 64)
+	if err != nil {
+		return emptyPublishResponse, status, err
+	}
+
+	return &PublishResponse{
+		Timestamp: timestamp,
+	}, status, nil
+
+}
+
+func newPublishBuilder(pubnub *PubNub) *publishBuilder {
+	return newPublishBuilderWithContext(pubnub, pubnub.ctx)
+}
+
+func newPublishOpts(pubnub *PubNub, ctx Context) *publishOpts {
+	return &publishOpts{
+		endpointOpts: endpointOpts{
+			pubnub: pubnub,
+			ctx:    ctx,
+		},
+		Serialize: true,
+	}
+}
+func newPublishBuilderWithContext(pubnub *PubNub, context Context) *publishBuilder {
+	builder := publishBuilder{
+		opts: newPublishOpts(pubnub, context)}
+	return &builder
+}
+
+// TTL sets the TTL (hours) for the Publish request.
+func (b *publishBuilder) TTL(ttl int) *publishBuilder {
+	b.opts.TTL = ttl
+	b.opts.setTTL = true
+
+	return b
+}
+
+// Channel sets the Channel for the Publish request.
+func (b *publishBuilder) Channel(ch string) *publishBuilder {
+	b.opts.Channel = ch
+
+	return b
+}
+
+// Message sets the Payload for the Publish request.
+func (b *publishBuilder) Message(msg interface{}) *publishBuilder {
+	b.opts.Message = msg
+
+	return b
+}
+
+// Meta sets the Meta Payload for the Publish request.
+func (b *publishBuilder) Meta(meta interface{}) *publishBuilder {
+	b.opts.Meta = meta
+
+	return b
+}
+
+// UsePost sends the Publish request using HTTP POST.
+func (b *publishBuilder) UsePost(post bool) *publishBuilder {
+	b.opts.UsePost = post
+
+	return b
+}
+
+// ShouldStore if true the messages are stored in History
+func (b *publishBuilder) ShouldStore(store bool) *publishBuilder {
+	b.opts.ShouldStore = store
+	b.opts.setShouldStore = true
+	return b
+}
+
+// Serialize when true (default) serializes the payload before publish.
+// Set to false if pre serialized payload is being used.
+func (b *publishBuilder) Serialize(serialize bool) *publishBuilder {
+	b.opts.Serialize = serialize
+
+	return b
+}
+
+// DoNotReplicate stores the message in one DC.
+func (b *publishBuilder) DoNotReplicate(repl bool) *publishBuilder {
+	b.opts.DoNotReplicate = repl
+
+	return b
+}
+
+// Transport sets the Transport for the Publish request.
+func (b *publishBuilder) Transport(tr http.RoundTripper) *publishBuilder {
+	b.opts.Transport = tr
+
+	return b
+}
+
+// QueryParam accepts a map, the keys and values of the map are passed as the query string parameters of the URL called by the API.
+func (b *publishBuilder) QueryParam(queryParam map[string]string) *publishBuilder {
+	b.opts.QueryParam = queryParam
+
+	return b
+}
+
+// CustomMessageType sets the User-specified message type string - limited by 3-50 case-sensitive alphanumeric characters
+// with only `-` and `_` special characters allowed.
+func (b *publishBuilder) CustomMessageType(messageType string) *publishBuilder {
+	b.opts.CustomMessageType = messageType
+
+	return b
+}
+
+// GetLogParams returns the user-provided parameters for logging
+func (o *publishOpts) GetLogParams() map[string]interface{} {
+	params := map[string]interface{}{
+		"Channel":        o.Channel,
+		"UsePost":        o.UsePost,
+		"Serialize":      o.Serialize,
+		"DoNotReplicate": o.DoNotReplicate,
+	}
+	if o.setTTL {
+		params["TTL"] = o.TTL
+	}
+	if o.setShouldStore {
+		params["ShouldStore"] = o.ShouldStore
+	}
+	if o.Meta != nil {
+		params["Meta"] = fmt.Sprintf("%v", o.Meta)
+	}
+	if o.CustomMessageType != "" {
+		params["CustomMessageType"] = o.CustomMessageType
+	}
+	// Truncate message for logging
+	if o.Message != nil {
+		msgStr := fmt.Sprintf("%v", o.Message)
+		if len(msgStr) > 100 {
+			params["Message"] = msgStr[:100] + "... (truncated)"
+		} else {
+			params["Message"] = msgStr
+		}
+	}
+	return params
+}
+
+// Execute runs the Publish request.
+func (b *publishBuilder) Execute() (*PublishResponse, StatusResponse, error) {
+	b.opts.pubnub.loggerManager.LogUserInput(PNLogLevelDebug, PNPublishOperation, b.opts.GetLogParams(), true)
+
+	rawJSON, status, err := executeRequest(b.opts)
+	if err != nil {
+		return emptyPublishResponse, status, err
+	}
+
+	return newPublishResponse(rawJSON, status, b.opts.pubnub.loggerManager)
+}
+
+func (o *publishOpts) isCustomMessageTypeCorrect() bool {
+	return isCustomMessageTypeValid(o.CustomMessageType)
+}
+
+func (o *publishOpts) validate() error {
+	if o.config().PublishKey == "" {
+		return newValidationError(o, StrMissingPubKey)
+	}
+
+	if o.config().SubscribeKey == "" {
+		return newValidationError(o, StrMissingSubKey)
+	}
+
+	if o.Channel == "" {
+		return newValidationError(o, StrMissingChannel)
+	}
+
+	if o.Message == nil {
+		return newValidationError(o, StrMissingMessage)
+	}
+
+	if !o.isCustomMessageTypeCorrect() {
+		return newValidationError(o, StrInvalidCustomMessageType)
+	}
+
+	return nil
+}
+
+func (o *publishOpts) encryptProcessing() (string, error) {
+	var msg string
+	var errJSONMarshal error
+
+	o.pubnub.loggerManager.LogSimple(PNLogLevelTrace, "Crypto: encrypting message", false)
+	if o.pubnub.Config.DisablePNOtherProcessing {
+		if msg, errJSONMarshal = serializeEncryptAndSerialize(o.pubnub.getCryptoModule(), o.Message, o.Serialize, o.pubnub.loggerManager); errJSONMarshal != nil {
+			o.pubnub.loggerManager.LogError(errJSONMarshal, "PublishSerializationFailed", PNPublishOperation, true)
+			return "", errJSONMarshal
+		}
+	} else {
+		//encrypt pn_other only
+		o.pubnub.loggerManager.LogSimple(PNLogLevelTrace, fmt.Sprintf("Publish: encrypting pn_other only, message type=%v", reflect.TypeOf(o.Message).Kind()), false)
+		switch v := o.Message.(type) {
+		case map[string]interface{}:
+
+			msgPart, ok := v["pn_other"].(string)
+
+			if ok {
+				o.pubnub.loggerManager.LogSimple(PNLogLevelTrace, "Crypto: encrypting pn_other field", false)
+				encMsg, errJSONMarshal := serializeAndEncrypt(o.pubnub.getCryptoModule(), msgPart, o.Serialize, o.pubnub.loggerManager)
+				if errJSONMarshal != nil {
+					o.pubnub.loggerManager.LogError(errJSONMarshal, "PublishPnOtherSerializationFailed", PNPublishOperation, true)
+					return "", errJSONMarshal
+				}
+				o.pubnub.loggerManager.LogSimple(PNLogLevelTrace, "Serialization: pn_other field serialised successfully", false)
+				v["pn_other"] = encMsg
+				jsonEncBytes, errEnc := json.Marshal(v)
+				if errEnc != nil {
+					o.pubnub.loggerManager.LogError(errEnc, "PublishMessageMarshalFailed", PNPublishOperation, true)
+					return "", errEnc
+				}
+				o.pubnub.loggerManager.LogSimple(PNLogLevelTrace, "Serialization: message with pn_other serialised successfully", false)
+				msg = string(jsonEncBytes)
+			} else {
+				if msg, errJSONMarshal = serializeEncryptAndSerialize(o.pubnub.getCryptoModule(), o.Message, o.Serialize, o.pubnub.loggerManager); errJSONMarshal != nil {
+					o.pubnub.loggerManager.LogError(errJSONMarshal, "PublishSerializationFailed", PNPublishOperation, true)
+					return "", errJSONMarshal
+				}
+				o.pubnub.loggerManager.LogSimple(PNLogLevelTrace, "Serialization: message serialised successfully", false)
+			}
+			break
+		default:
+			if msg, errJSONMarshal = serializeEncryptAndSerialize(o.pubnub.getCryptoModule(), o.Message, o.Serialize, o.pubnub.loggerManager); errJSONMarshal != nil {
+				o.pubnub.loggerManager.LogError(errJSONMarshal, "PublishSerializationFailed", PNPublishOperation, true)
+				return "", errJSONMarshal
+			}
+			o.pubnub.loggerManager.LogSimple(PNLogLevelTrace, "Serialization: message serialised successfully", false)
+
+			break
+		}
+	}
+	return msg, nil
+}
+
+func (o *publishOpts) buildPath() (string, error) {
+	if o.UsePost == true {
+		return fmt.Sprintf(publishPostPath,
+			o.pubnub.Config.PublishKey,
+			o.pubnub.Config.SubscribeKey,
+			utils.URLEncode(o.Channel),
+			"0"), nil
+	}
+
+	var msg string
+	var errJSONMarshal error
+
+	if o.pubnub.getCryptoModule() != nil {
+		if msg, errJSONMarshal = o.encryptProcessing(); errJSONMarshal != nil {
+			return "", errJSONMarshal
+		}
+
+		o.pubnub.loggerManager.LogSimple(PNLogLevelTrace, "Crypto: message encrypted successfully", false)
+	} else {
+		if o.Serialize {
+			o.pubnub.loggerManager.LogSimple(PNLogLevelTrace, "Serialization: serialising message content", false)
+			jsonEncBytes, errEnc := json.Marshal(o.Message)
+			if errEnc != nil {
+				o.pubnub.loggerManager.LogError(errEnc, "PublishMessageMarshalFailed", PNPublishOperation, true)
+				return "", errEnc
+			}
+			o.pubnub.loggerManager.LogSimple(PNLogLevelTrace, "Serialization: message serialised successfully", false)
+			msg = string(jsonEncBytes)
+			o.pubnub.loggerManager.LogSimple(PNLogLevelTrace, fmt.Sprintf("Publish: message serialized, length=%d", len(jsonEncBytes)), false)
+
+		} else {
+			if serializedMsg, ok := o.Message.(string); ok {
+				msg = serializedMsg
+			} else {
+				return "", pnerr.NewBuildRequestError("buildpath: Message is not JSON serialized.")
+			}
+		}
+	}
+
+	return fmt.Sprintf(publishGetPath,
+		o.pubnub.Config.PublishKey,
+		o.pubnub.Config.SubscribeKey,
+		utils.URLEncode(o.Channel),
+		"0",
+		utils.URLEncode(msg)), nil
+}
+
+func (o *publishOpts) buildQuery() (*url.Values, error) {
+	q := defaultQuery(o.pubnub.Config.UUID, o.pubnub.telemetryManager)
+
+	if o.Meta != nil {
+		meta, err := utils.ValueAsString(o.Meta)
+		if err != nil {
+			return &url.Values{}, err
+		}
+
+		q.Set("meta", string(meta))
+	}
+
+	if o.setShouldStore {
+		if o.ShouldStore {
+			q.Set("store", "1")
+		} else {
+			q.Set("store", "0")
+		}
+	}
+
+	if o.setTTL {
+		if o.TTL > 0 {
+			q.Set("ttl", strconv.Itoa(o.TTL))
+		}
+	}
+
+	seqn := strconv.Itoa(o.pubnub.getPublishSequence())
+	o.pubnub.loggerManager.LogSimple(PNLogLevelTrace, fmt.Sprintf("Publish: sequence number=%s", seqn), false)
+	q.Set("seqn", seqn)
+
+	if len(o.CustomMessageType) > 0 {
+		q.Set("custom_message_type", o.CustomMessageType)
+	}
+
+	SetQueryParam(q, o.QueryParam)
+
+	if o.DoNotReplicate == true {
+		q.Set("norep", "true")
+	}
+	o.pubnub.loggerManager.LogSimple(PNLogLevelTrace, fmt.Sprintf("Publish: query params=%v", q), false)
+
+	return q, nil
+}
+
+func (o *publishOpts) buildBody() ([]byte, error) {
+	if o.UsePost {
+		if o.pubnub.getCryptoModule() != nil {
+			msg, errJSONMarshal := o.encryptProcessing()
+			if errJSONMarshal != nil {
+				return []byte{}, errJSONMarshal
+			}
+			return []byte(msg), nil
+		}
+		if o.Serialize {
+			jsonEncBytes, errEnc := json.Marshal(o.Message)
+			if errEnc != nil {
+				o.pubnub.loggerManager.LogError(errEnc, "PublishMessageMarshalFailed", PNPublishOperation, true)
+				return []byte{}, errEnc
+			}
+			return jsonEncBytes, nil
+		}
+		serializedMsg, ok := o.Message.(string)
+		if ok {
+			return []byte(serializedMsg), nil
+		}
+		return []byte{}, pnerr.NewBuildRequestError("buildBody: Message is not JSON serialized.")
+	}
+	return []byte{}, nil
+}
+
+func (o *publishOpts) httpMethod() string {
+	if o.UsePost {
+		return "POST"
+	}
+	return "GET"
+}
+
+func (o *publishOpts) operationType() OperationType {
+	return PNPublishOperation
+}

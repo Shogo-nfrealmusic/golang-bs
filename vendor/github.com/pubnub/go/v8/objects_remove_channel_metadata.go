@@ -1,0 +1,145 @@
+package pubnub
+
+import (
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"io"
+	"net/http"
+	"net/url"
+
+	"github.com/pubnub/go/v8/pnerr"
+)
+
+var emptyPNRemoveChannelMetadataResponse *PNRemoveChannelMetadataResponse
+
+const removeChannelMetadataPath = "/v2/objects/%s/channels/%s"
+
+type removeChannelMetadataBuilder struct {
+	opts *removeChannelMetadataOpts
+}
+
+func newRemoveChannelMetadataBuilder(pubnub *PubNub) *removeChannelMetadataBuilder {
+	return newRemoveChannelMetadataBuilderWithContext(pubnub, pubnub.ctx)
+}
+
+func newRemoveChannelMetadataOpts(pubnub *PubNub, ctx Context) *removeChannelMetadataOpts {
+	return &removeChannelMetadataOpts{endpointOpts: endpointOpts{pubnub: pubnub, ctx: ctx}}
+}
+func newRemoveChannelMetadataBuilderWithContext(pubnub *PubNub,
+	context Context) *removeChannelMetadataBuilder {
+	builder := removeChannelMetadataBuilder{
+		opts: newRemoveChannelMetadataOpts(pubnub, context)}
+	return &builder
+}
+
+func (b *removeChannelMetadataBuilder) Channel(channel string) *removeChannelMetadataBuilder {
+	b.opts.Channel = channel
+
+	return b
+}
+
+// QueryParam accepts a map, the keys and values of the map are passed as the query string parameters of the URL called by the API.
+func (b *removeChannelMetadataBuilder) QueryParam(queryParam map[string]string) *removeChannelMetadataBuilder {
+	b.opts.QueryParam = queryParam
+
+	return b
+}
+
+// Transport sets the Transport for the removeChannelMetadata request.
+func (b *removeChannelMetadataBuilder) Transport(tr http.RoundTripper) *removeChannelMetadataBuilder {
+	b.opts.Transport = tr
+	return b
+}
+
+// GetLogParams returns the user-provided parameters for logging
+func (o *removeChannelMetadataOpts) GetLogParams() map[string]interface{} {
+	return map[string]interface{}{
+		"Channel": o.Channel,
+	}
+}
+
+// Execute runs the removeChannelMetadata request.
+func (b *removeChannelMetadataBuilder) Execute() (*PNRemoveChannelMetadataResponse, StatusResponse, error) {
+	b.opts.pubnub.loggerManager.LogUserInput(PNLogLevelDebug, PNRemoveChannelMetadataOperation, b.opts.GetLogParams(), true)
+	
+	rawJSON, status, err := executeRequest(b.opts)
+	if err != nil {
+		return emptyPNRemoveChannelMetadataResponse, status, err
+	}
+
+	return newPNRemoveChannelMetadataResponse(rawJSON, b.opts, status)
+}
+
+type removeChannelMetadataOpts struct {
+	endpointOpts
+	Channel    string
+	QueryParam map[string]string
+	Transport  http.RoundTripper
+}
+
+func (o *removeChannelMetadataOpts) validate() error {
+	if o.config().SubscribeKey == "" {
+		return newValidationError(o, StrMissingSubKey)
+	}
+	if o.Channel == "" {
+		return newValidationError(o, StrMissingChannel)
+	}
+
+	return nil
+}
+
+func (o *removeChannelMetadataOpts) buildPath() (string, error) {
+	return fmt.Sprintf(removeChannelMetadataPath,
+		o.pubnub.Config.SubscribeKey, o.Channel), nil
+}
+
+func (o *removeChannelMetadataOpts) buildQuery() (*url.Values, error) {
+
+	q := defaultQuery(o.pubnub.Config.UUID, o.pubnub.telemetryManager)
+	SetQueryParam(q, o.QueryParam)
+
+	return q, nil
+}
+
+func (o *removeChannelMetadataOpts) httpMethod() string {
+	return "DELETE"
+}
+
+func (o *removeChannelMetadataOpts) isAuthRequired() bool {
+	return true
+}
+
+func (o *removeChannelMetadataOpts) requestTimeout() int {
+	return o.pubnub.Config.NonSubscribeRequestTimeout
+}
+
+func (o *removeChannelMetadataOpts) connectTimeout() int {
+	return o.pubnub.Config.ConnectTimeout
+}
+
+func (o *removeChannelMetadataOpts) operationType() OperationType {
+	return PNRemoveChannelMetadataOperation
+}
+
+// PNRemoveChannelMetadataResponse is the Objects API Response for delete space
+type PNRemoveChannelMetadataResponse struct {
+	Status int         `json:"status"`
+	Data   interface{} `json:"data"`
+}
+
+func newPNRemoveChannelMetadataResponse(jsonBytes []byte, o *removeChannelMetadataOpts,
+	status StatusResponse) (*PNRemoveChannelMetadataResponse, StatusResponse, error) {
+
+	resp := &PNRemoveChannelMetadataResponse{}
+
+	err := json.Unmarshal(jsonBytes, &resp)
+	if err != nil {
+		e := pnerr.NewResponseParsingError("Error unmarshalling response",
+			io.NopCloser(bytes.NewBufferString(string(jsonBytes))), err)
+
+		return emptyPNRemoveChannelMetadataResponse, status, e
+	}
+
+	return resp, status, nil
+}
