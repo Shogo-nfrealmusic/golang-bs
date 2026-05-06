@@ -11,4 +11,5 @@ require (
 	golang.org/x/tools v0.36.1-0.20250903222949-a5c0eb837c9f // indirect
 	golang.org/x/tools/cmd/godoc v0.1.0-deprecated // indirect
 	golang.org/x/tools/godoc v0.1.0-deprecated // indirect
+	gopkg.in/ini.v1 v1.67.2 // indirect
 )
