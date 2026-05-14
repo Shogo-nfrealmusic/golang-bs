@@ -9,6 +9,7 @@ require (
 	github.com/gorilla/websocket v1.5.3 // indirect
 	github.com/markcheno/go-quote v0.0.0-20251022180205-ebbbbdb8e2b0 // indirect
 	github.com/markcheno/go-talib v0.0.0-20250114000313-ec55a20c902f // indirect
+	github.com/mattn/go-sqlite3 v1.14.44 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/pubnub/go/v8 v8.1.0 // indirect
 	github.com/stretchr/testify v1.11.1 // indirect
