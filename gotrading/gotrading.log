@@ -1,1 +1,14 @@
 2026/05/20 22:38:01 main.go:12: test
+2026/05/21 14:15:51 main.go:13: test
+2026/05/21 14:15:52 bitflyer.go:94: action=GetBalance err=invalid character '<' looking for beginning of value
+2026/05/21 14:17:32 main.go:13: test
+2026/05/21 14:17:32 bitflyer.go:94: action=GetBalance err=invalid character '<' looking for beginning of value
+2026/05/21 14:20:53 main.go:13: test
+2026/05/21 14:20:54 bitflyer.go:94: action=GetBalance err=invalid character '<' looking for beginning of value
+2026/05/21 14:21:14 main.go:13: test
+2026/05/21 14:21:14 bitflyer.go:86: action=GetBalance err=json: cannot unmarshal object into Go value of type []bitflyer.Balance
+2026/05/21 14:22:04 main.go:13: test
+2026/05/21 14:22:04 bitflyer.go:86: action=GetBalance err=json: cannot unmarshal object into Go value of type []bitflyer.Balance
+2026/05/21 14:22:57 main.go:13: test
+2026/05/21 14:22:57 bitflyer.go:84: response: {"status":-500,"error_message":"Key not found","data":null}
+2026/05/21 14:22:57 bitflyer.go:87: action=GetBalance err=json: cannot unmarshal object into Go value of type []bitflyer.Balance
