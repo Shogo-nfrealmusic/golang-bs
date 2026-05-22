@@ -6,15 +6,22 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/gorilla/websocket"
 )
 
-const baseURL = "https://api.bitflyer.com/v1"
+const (
+	baseURL             = "https://api.bitflyer.com/v1"
+	wsEndpoint          = "wss://ws.lightstream.bitflyer.com/json-rpc"
+	maxReconnectBackoff = 30 * time.Second
+)
 
 type APIClient struct {
 	key string
@@ -81,7 +88,6 @@ func (api *APIClient) GetBalance() ([]Balance, error) {
 		return nil, err
 }
 	var balances []Balance
-	log.Printf("response: %s", resp)
 	err = json.Unmarshal(resp, &balances)
 	if err != nil {
 		log.Printf("action=GetBalance err=%s", err.Error())
@@ -136,4 +142,92 @@ func (api *APIClient) GetTicker(productCode string) (*Ticker, error) {
 		return nil, err
 	}
 	return &ticker, nil
+}
+
+type rpcSubscribeRequest struct {
+	JSONRPC string             `json:"jsonrpc"`
+	Method  string             `json:"method"`
+	Params  rpcSubscribeParams `json:"params"`
+}
+
+type rpcSubscribeParams struct {
+	Channel string `json:"channel"`
+}
+
+type rpcChannelMessage struct {
+	JSONRPC string           `json:"jsonrpc"`
+	Method  string           `json:"method"`
+	Params  rpcMessageParams `json:"params"`
+}
+
+type rpcMessageParams struct {
+	Channel string          `json:"channel"`
+	Message json.RawMessage `json:"message"`
+}
+
+// GetRealTimeTicker maintains a WebSocket subscription and pushes ticker updates to ch.
+// It reconnects automatically when the connection closes or errors occur.
+func (api *APIClient) GetRealTimeTicker(symbol string, ch chan<- Ticker) {
+	channel := fmt.Sprintf("lightning_ticker_%s", symbol)
+	backoff := time.Second
+
+	for {
+		err := api.streamRealTimeTicker(channel, ch)
+		if err != nil {
+			log.Printf("action=GetRealTimeTicker channel=%s err=%s", channel, err)
+		}
+
+		log.Printf("action=GetRealTimeTicker channel=%s reconnecting in %s", channel, backoff)
+		time.Sleep(backoff)
+		if backoff < maxReconnectBackoff {
+			backoff *= 2
+			if backoff > maxReconnectBackoff {
+				backoff = maxReconnectBackoff
+			}
+		}
+	}
+}
+
+func (api *APIClient) streamRealTimeTicker(channel string, ch chan<- Ticker) error {
+	conn, _, err := websocket.DefaultDialer.Dial(wsEndpoint, nil)
+	if err != nil {
+		return fmt.Errorf("websocket dial: %w", err)
+	}
+	defer conn.Close()
+
+	subscribe := rpcSubscribeRequest{
+		JSONRPC: "2.0",
+		Method:  "subscribe",
+		Params: rpcSubscribeParams{
+			Channel: channel,
+		},
+	}
+	if err := conn.WriteJSON(subscribe); err != nil {
+		return fmt.Errorf("subscribe: %w", err)
+	}
+
+	for {
+		_, message, err := conn.ReadMessage()
+		if err != nil {
+			return fmt.Errorf("read message: %w", err)
+		}
+
+		var envelope rpcChannelMessage
+		if err := json.Unmarshal(message, &envelope); err != nil {
+			log.Printf("action=GetRealTimeTicker channel=%s parse envelope err=%s body=%s", channel, err, message)
+			continue
+		}
+
+		if envelope.Method != "channelMessage" {
+			continue
+		}
+
+		var ticker Ticker
+		if err := json.Unmarshal(envelope.Params.Message, &ticker); err != nil {
+			log.Printf("action=GetRealTimeTicker channel=%s parse ticker err=%s body=%s", channel, err, envelope.Params.Message)
+			continue
+		}
+
+		ch <- ticker
+	}
 }
