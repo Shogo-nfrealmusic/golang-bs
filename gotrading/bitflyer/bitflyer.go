@@ -119,15 +119,24 @@ func (t *Ticker) GetMidPrice() float64 {
 }
 
 func (t *Ticker) DateTime() time.Time {
-	datetime, err := time.Parse(time.RFC3339, t.Timestamp)
-	if err != nil {
-		log.Printf("action=DateTime err=%s", err.Error())
+	layouts := []string{
+		"2006-01-02T15:04:05.999999999",
+		"2006-01-02T15:04:05.999999999Z07:00",
+		time.RFC3339Nano,
+		time.RFC3339,
 	}
-	return datetime
+	for _, layout := range layouts {
+		datetime, err := time.ParseInLocation(layout, t.Timestamp, time.UTC)
+		if err == nil {
+			return datetime
+		}
+	}
+	log.Printf("action=DateTime err=unsupported format timestamp=%s", t.Timestamp)
+	return time.Time{}
 }
 
 func (t *Ticker) TruncateDateTime(duration time.Duration) time.Time {
-	return t.DateTime().Truncate(duration)
+	return t.DateTime().UTC().Truncate(duration)
 }
 
 func (api *APIClient) GetTicker(productCode string) (*Ticker, error) {
@@ -205,6 +214,7 @@ func (api *APIClient) streamRealTimeTicker(channel string, ch chan<- Ticker) err
 	if err := conn.WriteJSON(subscribe); err != nil {
 		return fmt.Errorf("subscribe: %w", err)
 	}
+	log.Printf("action=GetRealTimeTicker channel=%s subscribed", channel)
 
 	for {
 		_, message, err := conn.ReadMessage()

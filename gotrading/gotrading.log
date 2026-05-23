@@ -323,3 +323,723 @@
 2026/05/23 03:09:10 main.go:19: product=BTC_USD ltp=77255.000000 bid=77255.000000 ask=77887.970000
 2026/05/23 03:26:53 bitflyer.go:177: action=GetRealTimeTicker channel=lightning_ticker_BTC_USD err=read message: read tcp 192.168.11.10:53932->20.210.51.169:443: read: connection reset by peer
 2026/05/23 03:26:53 bitflyer.go:180: action=GetRealTimeTicker channel=lightning_ticker_BTC_USD reconnecting in 30s
+2026/05/23 11:39:10 candle.go:72: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_USD_1s.time
+2026/05/23 11:42:54 bitflyer.go:217: action=GetRealTimeTicker channel=lightning_ticker_BTC_USD subscribed
+2026/05/23 11:43:21 bitflyer.go:217: action=GetRealTimeTicker channel=lightning_ticker_BTC_USD subscribed
+2026/05/23 11:44:10 streamdata.go:20: action=StreamINgestionData first ticker ltp=77255.000000 timestamp=2026-05-23T02:44:10.6872385Z
+2026/05/23 11:44:10 streamdata.go:20: action=StreamINgestionData first ticker ltp=77255.000000 timestamp=2026-05-23T02:44:10.6872385Z
+2026/05/23 11:44:10 candle.go:72: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_USD_1m0s.time
+2026/05/23 11:44:10 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_USD_1s.time
+2026/05/23 11:44:10 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:44:00Z": extra text: "Z" value=2026-05-23T02:44:00Z
+2026/05/23 11:44:10 candle.go:72: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_USD_1h0m0s.time
+2026/05/23 11:44:10 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_USD_1m0s.time
+2026/05/23 11:44:10 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:44:10 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_USD_1h0m0s.time
+2026/05/23 11:45:10 bitflyer.go:217: action=GetRealTimeTicker channel=lightning_ticker_BTC_JPY subscribed
+2026/05/23 11:45:11 streamdata.go:20: action=StreamINgestionData first ticker ltp=12003493.000000 timestamp=2026-05-23T02:45:10.9362882Z
+2026/05/23 11:45:11 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:11 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:11 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:11 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:12 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:12 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:12 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:12 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:12 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:12Z": extra text: "Z" value=2026-05-23T02:45:12Z
+2026/05/23 11:45:12 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:45:12 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:12 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:12 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:12 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:13 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:13 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:13 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:13 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:13 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:13Z": extra text: "Z" value=2026-05-23T02:45:13Z
+2026/05/23 11:45:13 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:45:13 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:13 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:13 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:13 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:14 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:14 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:14 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:14 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:15 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:15 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:15 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:15 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:15 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:15Z": extra text: "Z" value=2026-05-23T02:45:15Z
+2026/05/23 11:45:15 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:45:15 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:15 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:15 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:15 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:16 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:16 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:16 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:16 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:16 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:16Z": extra text: "Z" value=2026-05-23T02:45:16Z
+2026/05/23 11:45:16 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:45:16 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:16 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:16 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:16 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:17 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:17 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:17 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:17 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:17 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:17Z": extra text: "Z" value=2026-05-23T02:45:17Z
+2026/05/23 11:45:17 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:45:17 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:17 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:17 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:17 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:18 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:18 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:18 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:18 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:19 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:18Z": extra text: "Z" value=2026-05-23T02:45:18Z
+2026/05/23 11:45:19 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:45:19 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:19 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:19 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:19 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:19 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:19 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:19 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:19 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:20 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:20 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:20 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:20 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:21 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:21 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:21 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:21 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:21 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:21Z": extra text: "Z" value=2026-05-23T02:45:21Z
+2026/05/23 11:45:21 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:45:21 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:21 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:21 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:21 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:22 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:22 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:22 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:22 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:22 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:22Z": extra text: "Z" value=2026-05-23T02:45:22Z
+2026/05/23 11:45:22 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:45:22 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:22 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:22 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:22 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:23 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:23 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:23 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:23 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:23 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:23Z": extra text: "Z" value=2026-05-23T02:45:23Z
+2026/05/23 11:45:23 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:45:23 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:23 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:23 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:23 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:25 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:25 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:25 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:25 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:26 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:26 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:26 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:26 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:26 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:26Z": extra text: "Z" value=2026-05-23T02:45:26Z
+2026/05/23 11:45:26 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:45:26 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:26 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:26 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:26 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:28 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:28 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:28 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:28 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:28 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:28 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:28 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:28 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:29 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:29 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:29 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:29 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:30 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:29Z": extra text: "Z" value=2026-05-23T02:45:29Z
+2026/05/23 11:45:30 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:45:30 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:30 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:30 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:30 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:30 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:30 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:30 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:30 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:31 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:30Z": extra text: "Z" value=2026-05-23T02:45:30Z
+2026/05/23 11:45:31 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:45:31 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:31 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:31 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:31 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:31 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:31 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:31 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:31 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:32 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:32 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:32 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:32 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:32 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:32 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:32 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:32Z": extra text: "Z" value=2026-05-23T02:45:32Z
+2026/05/23 11:45:32 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:45:32 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:32 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:33 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:33 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:33 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:33 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:34 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:33Z": extra text: "Z" value=2026-05-23T02:45:33Z
+2026/05/23 11:45:34 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:45:34 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:34 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:34 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:34 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:34 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:34 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:34 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:34 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:35 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:34Z": extra text: "Z" value=2026-05-23T02:45:34Z
+2026/05/23 11:45:35 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:45:35 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:35 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:35 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:35 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:35 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:35 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:35 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:35 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:36 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:36 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:36 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:36 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:36 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:36Z": extra text: "Z" value=2026-05-23T02:45:36Z
+2026/05/23 11:45:36 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:45:36 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:36 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:36 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:36 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:37 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:37 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:37 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:37 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:37 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:37Z": extra text: "Z" value=2026-05-23T02:45:37Z
+2026/05/23 11:45:37 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:45:37 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:37 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:37 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:37 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:38 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:38 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:38 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:38 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:39 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:39 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:39 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:39 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:39 bitflyer.go:217: action=GetRealTimeTicker channel=lightning_ticker_BTC_JPY subscribed
+2026/05/23 11:45:39 streamdata.go:20: action=StreamINgestionData first ticker ltp=12010728.000000 timestamp=2026-05-23T02:45:39.6624856Z
+2026/05/23 11:45:39 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:39Z": extra text: "Z" value=2026-05-23T02:45:39Z
+2026/05/23 11:45:39 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:45:39 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:39 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:39 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:39 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:40 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:40 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:40 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:40 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:40 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:40Z": extra text: "Z" value=2026-05-23T02:45:40Z
+2026/05/23 11:45:40 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:45:40 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:40 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:40 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:40 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:41 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:45:41 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:41 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:41 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:41 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:42 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:45:42 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:42 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:42 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:42 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:47 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:47 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:47 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:47 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:48 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:48 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:48 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:48Z": extra text: "Z" value=2026-05-23T02:45:48Z
+2026/05/23 11:45:48 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:45:48 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:48 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:49 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:45:49 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:49 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:49 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:49 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:50 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:49Z": extra text: "Z" value=2026-05-23T02:45:49Z
+2026/05/23 11:45:50 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:45:50 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:50 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:50 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:50 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:50 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:45:50 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:50 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:50 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:50 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:51 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:51 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:51 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:51 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:51 candle.go:99: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:45:51 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:51 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:51 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:51 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:51 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:51Z": extra text: "Z" value=2026-05-23T02:45:51Z
+2026/05/23 11:45:51 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:45:52 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:45:52 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:52 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:52 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:52 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:52 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:52Z": extra text: "Z" value=2026-05-23T02:45:52Z
+2026/05/23 11:45:52 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:45:52 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:52 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:52 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:52 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:53 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:53 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:53 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:53 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:53 candle.go:99: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:45:53 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:53Z": extra text: "Z" value=2026-05-23T02:45:53Z
+2026/05/23 11:45:53 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:45:53 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:53 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:53 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:53 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:54 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:54 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:54 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:54 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:54 candle.go:99: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:45:55 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:45:55 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:55 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:55 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:55 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:56 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:55Z": extra text: "Z" value=2026-05-23T02:45:55Z
+2026/05/23 11:45:56 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:45:56 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:56 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:56 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:56 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:56 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:56 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:56 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:56 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:56 candle.go:99: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:45:57 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:57 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:57 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:45:57 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:57 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:58 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:58 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:58 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:58 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:45:58 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:57Z": extra text: "Z" value=2026-05-23T02:45:57Z
+2026/05/23 11:45:58 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:45:58 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:58Z": extra text: "Z" value=2026-05-23T02:45:58Z
+2026/05/23 11:45:58 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:45:58 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:45:00Z": extra text: "Z" value=2026-05-23T02:45:00Z
+2026/05/23 11:45:58 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:45:58 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:45:58 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:01 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:01 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:01 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:01 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:01 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:02 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:02 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:02 candle.go:99: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:02 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:02 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:07 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:07 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:07 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:07Z": extra text: "Z" value=2026-05-23T02:46:07Z
+2026/05/23 11:46:07 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:07 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:07 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:07 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:07Z": extra text: "Z" value=2026-05-23T02:46:07Z
+2026/05/23 11:46:07 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:07 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:07 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:07 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:07 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:08 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:08 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:08 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:08 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:08 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:08 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:08 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:08Z": extra text: "Z" value=2026-05-23T02:46:08Z
+2026/05/23 11:46:08 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:08 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:08 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:09 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:09 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:09 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:09 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:09 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:09Z": extra text: "Z" value=2026-05-23T02:46:09Z
+2026/05/23 11:46:09 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:10 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:10 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:10 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:10 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:10 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:11 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:11 candle.go:99: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:11 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:11 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:11 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:11 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:11Z": extra text: "Z" value=2026-05-23T02:46:11Z
+2026/05/23 11:46:11 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:11 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:11 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:11 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:11 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:12 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:12 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:12 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:12 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:12 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:12 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:12Z": extra text: "Z" value=2026-05-23T02:46:12Z
+2026/05/23 11:46:12 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:12 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:12 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:12 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:12 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:13 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:13 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:13 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:13 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:13 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:13 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:13Z": extra text: "Z" value=2026-05-23T02:46:13Z
+2026/05/23 11:46:13 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:13 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:13 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:13 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:13 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:13 bitflyer.go:217: action=GetRealTimeTicker channel=lightning_ticker_BTC_JPY subscribed
+2026/05/23 11:46:14 streamdata.go:20: action=StreamINgestionData first ticker ltp=12010728.000000 timestamp=2026-05-23T02:46:14.4497875Z
+2026/05/23 11:46:14 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:14 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:14 candle.go:99: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:14 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:14 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:15 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:15 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:15 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:15 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:15 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:15 candle.go:99: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:15 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:15Z": extra text: "Z" value=2026-05-23T02:46:15Z
+2026/05/23 11:46:15 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:15 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:15 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:15 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:15 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:16 candle.go:99: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:16 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:16 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:16 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:16 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:16 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:17 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:17 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:17 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:17 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:17 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:17 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:17Z": extra text: "Z" value=2026-05-23T02:46:17Z
+2026/05/23 11:46:17 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:17 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:17 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:17 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:17 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:18 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:18 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:18 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:18 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:18 candle.go:99: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:19 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:19 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:19 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:19 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:19 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:20 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:20 candle.go:99: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:20 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:20 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:20 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:20 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:20Z": extra text: "Z" value=2026-05-23T02:46:20Z
+2026/05/23 11:46:20 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:20 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:20Z": extra text: "Z" value=2026-05-23T02:46:20Z
+2026/05/23 11:46:20 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:20 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:20 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:20 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:20 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:21 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:21 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:21 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:21 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:21 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:22 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:21Z": extra text: "Z" value=2026-05-23T02:46:21Z
+2026/05/23 11:46:22 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:22 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:22 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:22 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:22 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:22 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:22 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:22 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:22 candle.go:99: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:22 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:22 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:23 candle.go:99: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:23 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:23 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:23 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:23 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:23 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:23 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:23Z": extra text: "Z" value=2026-05-23T02:46:23Z
+2026/05/23 11:46:23 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:23 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:23 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:23 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:23 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:24 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:24Z": extra text: "Z" value=2026-05-23T02:46:24Z
+2026/05/23 11:46:24 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:24 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:24 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:24 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:24 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:24 candle.go:99: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:24 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:24 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:24 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:24 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:24 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:24Z": extra text: "Z" value=2026-05-23T02:46:24Z
+2026/05/23 11:46:24 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:25 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:25 candle.go:99: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:25 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:25 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:25Z": extra text: "Z" value=2026-05-23T02:46:25Z
+2026/05/23 11:46:25 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:25 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:25 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:26 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:26 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:26 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:26 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:26 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:25Z": extra text: "Z" value=2026-05-23T02:46:25Z
+2026/05/23 11:46:26 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:26 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:26 candle.go:99: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:26 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:26 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:26Z": extra text: "Z" value=2026-05-23T02:46:26Z
+2026/05/23 11:46:26 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:26 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:26 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:27 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:27 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:27 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:27Z": extra text: "Z" value=2026-05-23T02:46:27Z
+2026/05/23 11:46:27 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:27 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:27 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:27 candle.go:99: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:28 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:28 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:28 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:27Z": extra text: "Z" value=2026-05-23T02:46:27Z
+2026/05/23 11:46:28 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:28 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:28 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:28 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:28 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:28 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:28 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:28 candle.go:99: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:29 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:29 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:29 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:29 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:29 candle.go:99: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:30 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:29Z": extra text: "Z" value=2026-05-23T02:46:29Z
+2026/05/23 11:46:30 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:30 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:30 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:30 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:30 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:30 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:30 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:30 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:30 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:30 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:31 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:30Z": extra text: "Z" value=2026-05-23T02:46:30Z
+2026/05/23 11:46:31 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:31 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:31 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:31 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:31 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:31 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:31 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:31 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:31 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:31 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:31Z": extra text: "Z" value=2026-05-23T02:46:31Z
+2026/05/23 11:46:31 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:32 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:32 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:32 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:32 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:32 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:33 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:32Z": extra text: "Z" value=2026-05-23T02:46:32Z
+2026/05/23 11:46:33 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:33 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:33 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:33 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:33 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:33 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:33 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:33 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:33 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:33 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:34 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:33Z": extra text: "Z" value=2026-05-23T02:46:33Z
+2026/05/23 11:46:34 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:34 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:34 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:34 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:34 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:34 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:34 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:34 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:34 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:34 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:35 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:35 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:35 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:35 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:35 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:35Z": extra text: "Z" value=2026-05-23T02:46:35Z
+2026/05/23 11:46:35 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:35 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:35Z": extra text: "Z" value=2026-05-23T02:46:35Z
+2026/05/23 11:46:35 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:35 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:35 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:35 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:35 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:36 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:36 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:36 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:36Z": extra text: "Z" value=2026-05-23T02:46:36Z
+2026/05/23 11:46:36 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:36 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:36 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:37 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:36Z": extra text: "Z" value=2026-05-23T02:46:36Z
+2026/05/23 11:46:37 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:37 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:37 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:37 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:37 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:37 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:37 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:37 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:37 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:37 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:38 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:38 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:38 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:38 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:38 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:38Z": extra text: "Z" value=2026-05-23T02:46:38Z
+2026/05/23 11:46:38 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:39 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:38Z": extra text: "Z" value=2026-05-23T02:46:38Z
+2026/05/23 11:46:39 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:39 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:39 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:39 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:39 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:39 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:39 candle.go:99: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:39 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:39 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:39 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:40 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:40 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:40 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:40Z": extra text: "Z" value=2026-05-23T02:46:40Z
+2026/05/23 11:46:40 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:40 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:40 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:40 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:40 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:40 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:40Z": extra text: "Z" value=2026-05-23T02:46:40Z
+2026/05/23 11:46:40 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:40 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:40 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:41 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:41 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:41 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:41 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:41 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:41 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:41Z": extra text: "Z" value=2026-05-23T02:46:41Z
+2026/05/23 11:46:41 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:41 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:41 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:41 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:41 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:42 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:42 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:42 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:42 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:42 candle.go:99: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:42 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:43 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:43 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:42Z": extra text: "Z" value=2026-05-23T02:46:42Z
+2026/05/23 11:46:43 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:43 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:43 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:43 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:43 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:43 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:43 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:43 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:44 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:44 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:44 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:44 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
+2026/05/23 11:46:44 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:44Z": extra text: "Z" value=2026-05-23T02:46:44Z
+2026/05/23 11:46:44 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:44 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:44Z": extra text: "Z" value=2026-05-23T02:46:44Z
+2026/05/23 11:46:44 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1s.time
+2026/05/23 11:46:44 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:46:00Z": extra text: "Z" value=2026-05-23T02:46:00Z
+2026/05/23 11:46:44 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1m0s.time
+2026/05/23 11:46:44 candle.go:72: action=GetCandle parse time err=parsing time "2026-05-23T02:00:00Z": extra text: "Z" value=2026-05-23T02:00:00Z
+2026/05/23 11:46:44 candle.go:85: action=CreateCandleWithDuration create err=UNIQUE constraint failed: BTC_JPY_1h0m0s.time
