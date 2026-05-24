@@ -114,3 +114,38 @@ func CreateCandleWithDuration(ticker bitflyer.Ticker, productCode string, durati
 	}
 	return false
 }
+
+func GetAllCandles(productCode string, duration time.Duration, limit int) (dfCandle * DataFrameCandle, err error) {
+	tableName := GetCandleTableName(productCode, duration)
+	cmd := fmt.Sprintf(`SELECT * FROM (
+		SELECT time, open, high, low, close, volume FROM %s ORDER BY time DESC LIMIT ?
+	) ORDER BY time ASC;`, tableName)
+	rows, err := DbConnection.Query(cmd, limit)
+	if err != nil {
+		return
+	}
+	defer rows.Close()
+	dfCandle = &DataFrameCandle{}
+	dfCandle.ProductCode = productCode
+	dfCandle.Duration = duration
+	for rows.Next() {
+		var candle Candle
+		var timeStr string
+		candle.ProductCode = productCode
+		candle.Duration = duration
+		if err = rows.Scan(&timeStr, &candle.Open, &candle.High, &candle.Low, &candle.Close, &candle.Volume); err != nil {
+			return
+		}
+		candle.Time, err = parseCandleTime(timeStr)
+		if err != nil {
+			log.Printf("action=GetAllCandles parse time err=%s value=%s", err, timeStr)
+			continue
+		}
+		dfCandle.Candles = append(dfCandle.Candles, candle)
+	}
+	err = rows.Err()
+	if err != nil {
+		return
+	}
+	return dfCandle, nil
+}
