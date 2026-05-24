@@ -14,6 +14,7 @@ func StreamINgestionData() {
 	apiClient := bitflyer.New(config.Config.ApiKey, config.Config.ApiSecret)
 	go apiClient.GetRealTimeTicker(config.Config.ProductCode, tickerChannel)
 
+	go func() {
 	var once sync.Once
 	for ticker := range tickerChannel {
 		once.Do(func() {
@@ -26,4 +27,5 @@ func StreamINgestionData() {
 			}
 		}
 	}
+	}()
 }
