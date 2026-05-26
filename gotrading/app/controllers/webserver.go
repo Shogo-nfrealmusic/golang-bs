@@ -12,7 +12,7 @@ import (
 	"strconv"
 )
 
-var templates = template.Must(template.ParseFiles("app/views/google.html"))
+var templates = template.Must(template.ParseFiles("app/views/chart.html"))
 
 type chartPageData struct {
 	CandlesJSON template.JS
@@ -53,7 +53,7 @@ func viewChartHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = templates.ExecuteTemplate(w, "google.html", chartPageData{
+	err = templates.ExecuteTemplate(w, "chart.html", chartPageData{
 		CandlesJSON: template.JS(raw),
 	})
 	if err != nil {
