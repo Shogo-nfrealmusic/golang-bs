@@ -184,6 +184,27 @@ func apiCandleHandler(w http.ResponseWriter, r *http.Request) {
 		df.AddBbands(n, k)
 	}
 
+	ichimoku := r.URL.Query().Get("ichimoku")
+	if ichimoku != "" {
+		tenkan := 9
+		kikun := 26
+		senkouB := 52
+		displacement := 26
+		if v, err := strconv.Atoi(r.URL.Query().Get("ichimokuTenkan")); err == nil && v > 0 {
+			tenkan = v
+		}
+		if v, err := strconv.Atoi(r.URL.Query().Get("ichimokuKikun")); err == nil && v > 0 {
+			kikun = v
+		}
+		if v, err := strconv.Atoi(r.URL.Query().Get("ichimokuSenkouB")); err == nil && v > 0 {
+			senkouB = v
+		}
+		if v, err := strconv.Atoi(r.URL.Query().Get("ichimokuDisplacement")); err == nil && v > 0 {
+			displacement = v
+		}
+		df.AddIchimoku(tenkan, kikun, senkouB, displacement)
+	}
+
 	js, err := json.Marshal(df)
 	if err != nil {
 		APIError(w, err, http.StatusInternalServerError)

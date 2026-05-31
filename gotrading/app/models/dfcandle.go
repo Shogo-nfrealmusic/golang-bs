@@ -1,7 +1,10 @@
 package models
 
 import (
+	"math"
 	"time"
+
+	"gotrading/dtadingalgo"
 
 	"github.com/markcheno/go-talib"
 )
@@ -12,7 +15,8 @@ type DataFrameCandle struct {
 	Candles []Candle `json:"candles"`
 	Smas    []Sma     `json:"smas,omitempty"`
 	Emas    []Ema     `json:"emas,omitempty"`
-	Bbands  []Bbands  `json:"bbands,omitempty"`
+	Bbands   []Bbands  `json:"bbands,omitempty"`
+	Ichimoku *Ichimoku `json:"ichimoku,omitempty"`
 }
 
 type Sma struct {
@@ -31,6 +35,14 @@ type Bbands struct {
 	Up   []float64 `json:"up,omitempty"`
 	Mid  []float64 `json:"mid,omitempty"`
 	Down []float64 `json:"down,omitempty"`
+}
+
+type Ichimoku struct {
+	Tenkan  []*float64 `json:"tenkan,omitempty"`
+	Kikun   []*float64 `json:"kikun,omitempty"`
+	SenkouA []*float64 `json:"senkou_a,omitempty"`
+	SenkouB []*float64 `json:"senkou_b,omitempty"`
+	Chikou  []*float64 `json:"chikou,omitempty"`
 }
 
 func (df * DataFrameCandle) Times() []time.Time {
@@ -116,4 +128,54 @@ func (df *DataFrameCandle) AddBbands(n int, k float64) bool {
 		Down: down,
 	})
 	return true
+}
+
+func (df *DataFrameCandle) AddIchimoku(tenkan, kikun, senkouB, displacement int) bool {
+	if tenkan <= 0 {
+		tenkan = 9
+	}
+	if kikun <= 0 {
+		kikun = 26
+	}
+	if senkouB <= 0 {
+		senkouB = 52
+	}
+	if displacement <= 0 {
+		displacement = 26
+	}
+	minLen := senkouB + displacement
+	if len(df.Candles) < minLen {
+		return false
+	}
+
+	lines := dtadingalgo.Ichimoku(dtadingalgo.IchimokuInput{
+		High:  df.High(),
+		Low:   df.Low(),
+		Close: df.Close(),
+	}, dtadingalgo.IchimokuParams{
+		TenkanPeriod:  tenkan,
+		KikunPeriod:   kikun,
+		SenkouBPeriod: senkouB,
+		Displacement:  displacement,
+	})
+
+	df.Ichimoku = &Ichimoku{
+		Tenkan:  floatsToNullableJSON(lines.Tenkan),
+		Kikun:   floatsToNullableJSON(lines.Kikun),
+		SenkouA: floatsToNullableJSON(lines.SenkouA),
+		SenkouB: floatsToNullableJSON(lines.SenkouB),
+		Chikou:  floatsToNullableJSON(lines.Chikou),
+	}
+	return true
+}
+
+func floatsToNullableJSON(values []float64) []*float64 {
+	out := make([]*float64, len(values))
+	for i, v := range values {
+		if !math.IsNaN(v) && !math.IsInf(v, 0) {
+			val := v
+			out[i] = &val
+		}
+	}
+	return out
 }

@@ -53,6 +53,10 @@
           k: 2,
           sets: [],
         },
+        ichimoku: {
+          enable: false,
+          set: null,
+        },
       };
 
       function initConfigValues() {
@@ -62,6 +66,7 @@
         config.ema.indexes = [];
         config.ema.values = [];
         config.bbands.sets = [];
+        config.ichimoku.set = null;
       }
 
       function appendOverlayIndexes(cols, indexes) {
@@ -91,6 +96,9 @@
         for (var b = 0; b < config.bbands.sets.length; b++) {
           var bbSet = config.bbands.sets[b];
           appendOverlayIndexes(cols, [bbSet.indexUp, bbSet.indexMid, bbSet.indexDown]);
+        }
+        if (config.ichimoku.set) {
+          appendOverlayIndexes(cols, config.ichimoku.set.indexes);
         }
         return cols;
       }
@@ -149,6 +157,26 @@
             seriesIndex += 1;
           }
         }
+        if (config.ichimoku.set) {
+          var ichimokuSeries = [
+            { color: "#e53935", lineWidth: 1 },
+            { color: "#1e88e5", lineWidth: 1 },
+            { color: "#43a047", lineWidth: 1, lineDashStyle: [4, 4] },
+            { color: "#fb8c00", lineWidth: 1, lineDashStyle: [4, 4] },
+            { color: "#8e24aa", lineWidth: 1, lineDashStyle: [2, 6] },
+          ];
+          for (var ic = 0; ic < ichimokuSeries.length; ic++) {
+            series[seriesIndex] = {
+              type: "line",
+              lineWidth: ichimokuSeries[ic].lineWidth,
+              color: ichimokuSeries[ic].color,
+            };
+            if (ichimokuSeries[ic].lineDashStyle) {
+              series[seriesIndex].lineDashStyle = ichimokuSeries[ic].lineDashStyle;
+            }
+            seriesIndex += 1;
+          }
+        }
         return series;
       }
 
@@ -156,7 +184,8 @@
         return (
           config.sma.indexes.length > 0 ||
           config.ema.indexes.length > 0 ||
-          config.bbands.sets.length > 0
+          config.bbands.sets.length > 0 ||
+          config.ichimoku.set !== null
         );
       }
 
@@ -231,6 +260,46 @@
           row.push(sanitizeChartValue(bbSet.up[candleIndex]));
           row.push(sanitizeChartValue(bbSet.mid[candleIndex]));
           row.push(sanitizeChartValue(bbSet.down[candleIndex]));
+        }
+      }
+
+      function addIchimokuColumns(dataTable, ichimoku) {
+        if (!ichimoku) {
+          return;
+        }
+        var lines = [
+          { key: "tenkan", label: "Tenkan" },
+          { key: "kikun", label: "Kikun" },
+          { key: "senkou_a", label: "SenkouA" },
+          { key: "senkou_b", label: "SenkouB" },
+          { key: "chikou", label: "Chikou" },
+        ];
+        var set = { indexes: [], order: [], values: {} };
+        for (var i = 0; i < lines.length; i++) {
+          var line = lines[i];
+          var values = ichimoku[line.key];
+          if (!values || values.length === 0) {
+            continue;
+          }
+          config.dataTable.index += 1;
+          set.indexes.push(config.dataTable.index);
+          set.order.push(line.key);
+          dataTable.addColumn("number", line.label);
+          set.values[line.key] = values;
+        }
+        if (set.order.length > 0) {
+          config.ichimoku.set = set;
+        }
+      }
+
+      function appendIchimokuValues(row, candleIndex) {
+        if (!config.ichimoku.set) {
+          return;
+        }
+        for (var i = 0; i < config.ichimoku.set.order.length; i++) {
+          var key = config.ichimoku.set.order[i];
+          var values = config.ichimoku.set.values[key];
+          row.push(sanitizeChartValue(values[candleIndex]));
         }
       }
 
@@ -314,6 +383,9 @@
           params["bbandsN"] = config.bbands.n;
           params["bbandsK"] = config.bbands.k;
         }
+        if (config.ichimoku.enable === true) {
+          params["ichimoku"] = true;
+        }
 
         $.getJSON("/api/candle/", params)
           .done(function (data) {
@@ -334,6 +406,7 @@
             addMovingAverageColumns(dataTable, data.smas, "SMA", config.sma);
             addMovingAverageColumns(dataTable, data.emas, "EMA", config.ema);
             addBbandsColumns(dataTable, data.bbands);
+            addIchimokuColumns(dataTable, data.ichimoku);
 
             var rows = [];
             for (var i = 0; i < candles.length; i++) {
@@ -348,6 +421,7 @@
               appendMovingAverageValues(row, config.sma.values, i);
               appendMovingAverageValues(row, config.ema.values, i);
               appendBbandsValues(row, i);
+              appendIchimokuValues(row, i);
               rows.push(row);
             }
 
@@ -438,6 +512,10 @@
           config.bbands.k = parseFloat(this.value);
           send();
         });
+        $("#inputIchimoku").change(function () {
+          config.ichimoku.enable = this.checked === true;
+          send();
+        });
       });
     </script>
   </head>
@@ -465,6 +543,10 @@
       BBands <input id="inputBbands" type="checkbox" />
       N <input id="inputBbandsN" type="number" value="20" min="2" style="width: 40px" />
       K <input id="inputBbandsK" type="number" value="2" min="0.1" step="0.1" style="width: 40px" />
+    </div>
+    <div>
+      一目 <input id="inputIchimoku" type="checkbox" />
+      (9 / 26 / 52 / 先行26)
     </div>
     <div id="status"></div>
     <div id="dashboard_div">
