@@ -145,6 +145,45 @@ func apiCandleHandler(w http.ResponseWriter, r *http.Request) {
 		df.AddSma(period3)
 	}
 
+	ema := r.URL.Query().Get("ema")
+	if ema != "" {
+		strEmaPeriod1 := r.URL.Query().Get("emaPeriod1")
+		strEmaPeriod2 := r.URL.Query().Get("emaPeriod2")
+		strEmaPeriod3 := r.URL.Query().Get("emaPeriod3")
+		period1, err := strconv.Atoi(strEmaPeriod1)
+		if strEmaPeriod1 == "" || err != nil || period1 < 0 {
+			period1 = 12
+		}
+		period2, err := strconv.Atoi(strEmaPeriod2)
+		if strEmaPeriod2 == "" || err != nil || period2 < 0 {
+			period2 = 26
+		}
+		period3, err := strconv.Atoi(strEmaPeriod3)
+		if strEmaPeriod3 == "" || err != nil || period3 < 0 {
+			period3 = 50
+		}
+		df.AddEma(period1)
+		df.AddEma(period2)
+		df.AddEma(period3)
+	}
+
+	bbands := r.URL.Query().Get("bbands")
+	if bbands != "" {
+		n := 20
+		k := 2.0
+		if strN := r.URL.Query().Get("bbandsN"); strN != "" {
+			if parsed, err := strconv.Atoi(strN); err == nil && parsed > 0 {
+				n = parsed
+			}
+		}
+		if strK := r.URL.Query().Get("bbandsK"); strK != "" {
+			if parsed, err := strconv.ParseFloat(strK, 64); err == nil && parsed > 0 {
+				k = parsed
+			}
+		}
+		df.AddBbands(n, k)
+	}
+
 	js, err := json.Marshal(df)
 	if err != nil {
 		APIError(w, err, http.StatusInternalServerError)

@@ -41,12 +41,36 @@
           periods: [],
           values: [],
         },
+        ema: {
+          enable: false,
+          indexes: [],
+          periods: [],
+          values: [],
+        },
+        bbands: {
+          enable: false,
+          n: 20,
+          k: 2,
+          sets: [],
+        },
       };
 
       function initConfigValues() {
         config.dataTable.index = 0;
         config.sma.indexes = [];
         config.sma.values = [];
+        config.ema.indexes = [];
+        config.ema.values = [];
+        config.bbands.sets = [];
+      }
+
+      function appendOverlayIndexes(cols, indexes) {
+        for (var i = 0; i < indexes.length; i++) {
+          var colIndex = indexes[i];
+          if (colIndex !== undefined) {
+            cols.push(colIndex);
+          }
+        }
       }
 
       function buildMainChartViewColumns() {
@@ -62,28 +86,152 @@
           3,
           4,
         ];
-        for (var i = 0; i < config.sma.indexes.length; i++) {
-          var colIndex = config.sma.indexes[i];
-          if (colIndex !== undefined) {
-            cols.push(colIndex);
-          }
+        appendOverlayIndexes(cols, config.sma.indexes);
+        appendOverlayIndexes(cols, config.ema.indexes);
+        for (var b = 0; b < config.bbands.sets.length; b++) {
+          var bbSet = config.bbands.sets[b];
+          appendOverlayIndexes(cols, [bbSet.indexUp, bbSet.indexMid, bbSet.indexDown]);
         }
         return cols;
       }
 
-      function buildSmaSeriesOptions() {
+      function buildOverlaySeriesOptions() {
         var series = {};
-        var colors = ["#3366cc", "#dc3912", "#ff9900"];
+        var smaColors = ["#3366cc", "#dc3912", "#ff9900"];
+        var emaColors = ["#9900cc", "#00acc1", "#e91e63"];
+        var seriesIndex = 1;
         for (var i = 0; i < config.sma.indexes.length; i++) {
           if (config.sma.indexes[i] !== undefined) {
-            series[i + 1] = {
+            series[seriesIndex] = {
               type: "line",
               lineWidth: 1,
-              color: colors[i % colors.length],
+              color: smaColors[i % smaColors.length],
             };
+            seriesIndex += 1;
+          }
+        }
+        for (var j = 0; j < config.ema.indexes.length; j++) {
+          if (config.ema.indexes[j] !== undefined) {
+            series[seriesIndex] = {
+              type: "line",
+              lineWidth: 1,
+              lineDashStyle: [6, 4],
+              color: emaColors[j % emaColors.length],
+            };
+            seriesIndex += 1;
+          }
+        }
+        for (var b = 0; b < config.bbands.sets.length; b++) {
+          var bbSet = config.bbands.sets[b];
+          if (bbSet.indexUp !== undefined) {
+            series[seriesIndex] = {
+              type: "line",
+              lineWidth: 1,
+              color: "#90a4ae",
+            };
+            seriesIndex += 1;
+          }
+          if (bbSet.indexMid !== undefined) {
+            series[seriesIndex] = {
+              type: "line",
+              lineWidth: 1,
+              lineDashStyle: [2, 2],
+              color: "#546e7a",
+            };
+            seriesIndex += 1;
+          }
+          if (bbSet.indexDown !== undefined) {
+            series[seriesIndex] = {
+              type: "line",
+              lineWidth: 1,
+              color: "#90a4ae",
+            };
+            seriesIndex += 1;
           }
         }
         return series;
+      }
+
+      function hasOverlays() {
+        return (
+          config.sma.indexes.length > 0 ||
+          config.ema.indexes.length > 0 ||
+          config.bbands.sets.length > 0
+        );
+      }
+
+      function addMovingAverageColumns(dataTable, items, labelPrefix, target) {
+        if (!items || items.length === 0) {
+          return;
+        }
+        for (var s = 0; s < items.length; s++) {
+          var maData = items[s];
+          if (!maData.values || maData.values.length === 0) {
+            continue;
+          }
+          config.dataTable.index += 1;
+          target.indexes[s] = config.dataTable.index;
+          dataTable.addColumn(
+            "number",
+            labelPrefix + maData.period.toString(),
+          );
+          target.values[s] = maData.values;
+        }
+      }
+
+      function appendMovingAverageValues(row, valuesList, candleIndex) {
+        for (var j = 0; j < valuesList.length; j++) {
+          var maValues = valuesList[j];
+          if (!maValues) {
+            row.push(null);
+            continue;
+          }
+          var v = maValues[candleIndex];
+          row.push(v != null && !isNaN(v) ? v : null);
+        }
+      }
+
+      function sanitizeChartValue(v) {
+        return v != null && !isNaN(v) ? v : null;
+      }
+
+      function addBbandsColumns(dataTable, items) {
+        if (!items || items.length === 0) {
+          return;
+        }
+        for (var b = 0; b < items.length; b++) {
+          var bb = items[b];
+          if (!bb.up || !bb.mid || !bb.down || bb.up.length === 0) {
+            continue;
+          }
+          var label = "BB" + bb.n.toString() + "x" + bb.k.toString();
+          config.dataTable.index += 1;
+          var indexUp = config.dataTable.index;
+          dataTable.addColumn("number", label + " Up");
+          config.dataTable.index += 1;
+          var indexMid = config.dataTable.index;
+          dataTable.addColumn("number", label + " Mid");
+          config.dataTable.index += 1;
+          var indexDown = config.dataTable.index;
+          dataTable.addColumn("number", label + " Down");
+          config.bbands.sets.push({
+            indexUp: indexUp,
+            indexMid: indexMid,
+            indexDown: indexDown,
+            up: bb.up,
+            mid: bb.mid,
+            down: bb.down,
+          });
+        }
+      }
+
+      function appendBbandsValues(row, candleIndex) {
+        for (var b = 0; b < config.bbands.sets.length; b++) {
+          var bbSet = config.bbands.sets[b];
+          row.push(sanitizeChartValue(bbSet.up[candleIndex]));
+          row.push(sanitizeChartValue(bbSet.mid[candleIndex]));
+          row.push(sanitizeChartValue(bbSet.down[candleIndex]));
+        }
       }
 
       function drawChart(dataTable) {
@@ -93,16 +241,16 @@
 
         var chartOptions = {
           hAxis: { slantedText: false },
-          legend: { position: config.sma.indexes.length > 0 ? "bottom" : "none" },
+          legend: { position: hasOverlays() ? "bottom" : "none" },
           candlestick: {
             fallingColor: { strokeWidth: 0, fill: "#a52714" },
             risingColor: { strokeWidth: 0, fill: "#0f9d58" },
           },
           seriesType: "candlesticks",
         };
-        var smaSeries = buildSmaSeriesOptions();
-        if (Object.keys(smaSeries).length > 0) {
-          chartOptions.series = smaSeries;
+        var overlaySeries = buildOverlaySeriesOptions();
+        if (Object.keys(overlaySeries).length > 0) {
+          chartOptions.series = overlaySeries;
         }
 
         var mainChart = new google.visualization.ChartWrapper({
@@ -155,6 +303,17 @@
           params["smaPeriod2"] = config.sma.periods[1];
           params["smaPeriod3"] = config.sma.periods[2];
         }
+        if (config.ema.enable === true) {
+          params["ema"] = true;
+          params["emaPeriod1"] = config.ema.periods[0];
+          params["emaPeriod2"] = config.ema.periods[1];
+          params["emaPeriod3"] = config.ema.periods[2];
+        }
+        if (config.bbands.enable === true) {
+          params["bbands"] = true;
+          params["bbandsN"] = config.bbands.n;
+          params["bbandsK"] = config.bbands.k;
+        }
 
         $.getJSON("/api/candle/", params)
           .done(function (data) {
@@ -172,21 +331,9 @@
             dataTable.addColumn("number", "Open");
             dataTable.addColumn("number", "Close");
             dataTable.addColumn("number", "High");
-            if (data.smas && data.smas.length > 0) {
-              for (var s = 0; s < data.smas.length; s++) {
-                var smaData = data.smas[s];
-                if (!smaData.values || smaData.values.length === 0) {
-                  continue;
-                }
-                config.dataTable.index += 1;
-                config.sma.indexes[s] = config.dataTable.index;
-                dataTable.addColumn(
-                  "number",
-                  "SMA" + smaData.period.toString(),
-                );
-                config.sma.values[s] = smaData.values;
-              }
-            }
+            addMovingAverageColumns(dataTable, data.smas, "SMA", config.sma);
+            addMovingAverageColumns(dataTable, data.emas, "EMA", config.ema);
+            addBbandsColumns(dataTable, data.bbands);
 
             var rows = [];
             for (var i = 0; i < candles.length; i++) {
@@ -198,15 +345,9 @@
                 candle.close,
                 candle.high,
               ];
-              for (var j = 0; j < config.sma.values.length; j++) {
-                var smaValues = config.sma.values[j];
-                if (!smaValues) {
-                  row.push(null);
-                  continue;
-                }
-                var v = smaValues[i];
-                row.push(v != null && !isNaN(v) ? v : null);
-              }
+              appendMovingAverageValues(row, config.sma.values, i);
+              appendMovingAverageValues(row, config.ema.values, i);
+              appendBbandsValues(row, i);
               rows.push(row);
             }
 
@@ -226,14 +367,19 @@
       }
 
       google.charts.load("current", { packages: ["corechart", "controls"] });
-      function initSmaPeriods() {
+      function initIndicatorParams() {
         config.sma.periods[0] = parseInt($("#inputSmaPeriod1").val(), 10) || 7;
         config.sma.periods[1] = parseInt($("#inputSmaPeriod2").val(), 10) || 14;
         config.sma.periods[2] = parseInt($("#inputSmaPeriod3").val(), 10) || 21;
+        config.ema.periods[0] = parseInt($("#inputEmaPeriod1").val(), 10) || 12;
+        config.ema.periods[1] = parseInt($("#inputEmaPeriod2").val(), 10) || 26;
+        config.ema.periods[2] = parseInt($("#inputEmaPeriod3").val(), 10) || 50;
+        config.bbands.n = parseInt($("#inputBbandsN").val(), 10) || 20;
+        config.bbands.k = parseFloat($("#inputBbandsK").val()) || 2;
       }
 
       google.charts.setOnLoadCallback(function () {
-        initSmaPeriods();
+        initIndicatorParams();
         send();
         setInterval(send, config.api.interval);
 
@@ -264,6 +410,34 @@
           config.sma.periods[2] = parseInt(this.value);
           send();
         });
+        $("#inputEma").change(function () {
+          config.ema.enable = this.checked === true;
+          send();
+        });
+        $("#inputEmaPeriod1").change(function () {
+          config.ema.periods[0] = parseInt(this.value, 10);
+          send();
+        });
+        $("#inputEmaPeriod2").change(function () {
+          config.ema.periods[1] = parseInt(this.value, 10);
+          send();
+        });
+        $("#inputEmaPeriod3").change(function () {
+          config.ema.periods[2] = parseInt(this.value, 10);
+          send();
+        });
+        $("#inputBbands").change(function () {
+          config.bbands.enable = this.checked === true;
+          send();
+        });
+        $("#inputBbandsN").change(function () {
+          config.bbands.n = parseInt(this.value, 10);
+          send();
+        });
+        $("#inputBbandsK").change(function () {
+          config.bbands.k = parseFloat(this.value);
+          send();
+        });
       });
     </script>
   </head>
@@ -280,6 +454,17 @@
       <input id="inputSmaPeriod1" type="number" value="7" min="1" style="width: 40px" />
       <input id="inputSmaPeriod2" type="number" value="14" min="1" style="width: 40px" />
       <input id="inputSmaPeriod3" type="number" value="21" min="1" style="width: 40px" />
+    </div>
+    <div>
+      EMA <input id="inputEma" type="checkbox" /> Period
+      <input id="inputEmaPeriod1" type="number" value="12" min="1" style="width: 40px" />
+      <input id="inputEmaPeriod2" type="number" value="26" min="1" style="width: 40px" />
+      <input id="inputEmaPeriod3" type="number" value="50" min="1" style="width: 40px" />
+    </div>
+    <div>
+      BBands <input id="inputBbands" type="checkbox" />
+      N <input id="inputBbandsN" type="number" value="20" min="2" style="width: 40px" />
+      K <input id="inputBbandsK" type="number" value="2" min="0.1" step="0.1" style="width: 40px" />
     </div>
     <div id="status"></div>
     <div id="dashboard_div">
