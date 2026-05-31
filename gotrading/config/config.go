@@ -23,6 +23,11 @@ type ConfigList struct {
 
 var Config ConfigList
 
+const (
+	Duration1Month = 30 * 24 * time.Hour
+	Duration1Year  = 365 * 24 * time.Hour
+)
+
 func init() {
 	cfg, err := ini.Load("config.ini")
 	if err != nil {
@@ -30,11 +35,13 @@ func init() {
 		os.Exit(1)
 	}
 
-durations := map[string]time.Duration {
-	"1s": time.Second,
-	"1m": time.Minute,
-	"1h": time.Hour,
-}
+	durations := map[string]time.Duration{
+		"1s":  time.Second,
+		"1m":  time.Minute,
+		"1h":  time.Hour,
+		"1mo": Duration1Month,
+		"1y":  Duration1Year,
+	}
 
 	Config = ConfigList{
 		ApiKey: cfg.Section("bitflyer").Key("api_key").String(),

@@ -3,6 +3,7 @@ package models
 import (
 	"fmt"
 	"gotrading/bitflyer"
+	"gotrading/config"
 	"log"
 	"time"
 )
@@ -20,6 +21,18 @@ type Candle struct {
 
 func formatCandleTime(t time.Time) string {
 	return t.UTC().Format("2006-01-02T15:04:05")
+}
+
+func truncateCandleTime(t time.Time, duration time.Duration) time.Time {
+	t = t.UTC()
+	switch duration {
+	case config.Duration1Month:
+		return time.Date(t.Year(), t.Month(), 1, 0, 0, 0, 0, time.UTC)
+	case config.Duration1Year:
+		return time.Date(t.Year(), 1, 1, 0, 0, 0, 0, time.UTC)
+	default:
+		return t.Truncate(duration)
+	}
 }
 
 func parseCandleTime(value string) (time.Time, error) {
@@ -90,7 +103,7 @@ func GetCandle(productCode string, duration time.Duration, datetime time.Time) *
 }
 
 func CreateCandleWithDuration(ticker bitflyer.Ticker, productCode string, duration time.Duration) bool {
-	candleTime := ticker.TruncateDateTime(duration)
+	candleTime := truncateCandleTime(ticker.DateTime(), duration)
 	currentCandle := GetCandle(productCode, duration, candleTime)
 	price := ticker.GetMidPrice()
 	if currentCandle == nil {

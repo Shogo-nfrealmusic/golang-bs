@@ -31,38 +31,86 @@
           duration: "1m",
           limit: 365,
         },
+        dataTable: {
+          index: 0,
+          value: null,
+        },
+        sma: {
+          enable: false,
+          indexes: [],
+          periods: [],
+          values: [],
+        },
       };
+
+      function initConfigValues() {
+        config.dataTable.index = 0;
+        config.sma.indexes = [];
+        config.sma.values = [];
+      }
+
+      function buildMainChartViewColumns() {
+        var cols = [
+          {
+            calc: function (dt, row) {
+              return dt.getFormattedValue(row, 0);
+            },
+            type: "string",
+          },
+          1,
+          2,
+          3,
+          4,
+        ];
+        for (var i = 0; i < config.sma.indexes.length; i++) {
+          var colIndex = config.sma.indexes[i];
+          if (colIndex !== undefined) {
+            cols.push(colIndex);
+          }
+        }
+        return cols;
+      }
+
+      function buildSmaSeriesOptions() {
+        var series = {};
+        var colors = ["#3366cc", "#dc3912", "#ff9900"];
+        for (var i = 0; i < config.sma.indexes.length; i++) {
+          if (config.sma.indexes[i] !== undefined) {
+            series[i + 1] = {
+              type: "line",
+              lineWidth: 1,
+              color: colors[i % colors.length],
+            };
+          }
+        }
+        return series;
+      }
 
       function drawChart(dataTable) {
         var dashboard = new google.visualization.Dashboard(
           document.getElementById("dashboard_div"),
         );
 
+        var chartOptions = {
+          hAxis: { slantedText: false },
+          legend: { position: config.sma.indexes.length > 0 ? "bottom" : "none" },
+          candlestick: {
+            fallingColor: { strokeWidth: 0, fill: "#a52714" },
+            risingColor: { strokeWidth: 0, fill: "#0f9d58" },
+          },
+          seriesType: "candlesticks",
+        };
+        var smaSeries = buildSmaSeriesOptions();
+        if (Object.keys(smaSeries).length > 0) {
+          chartOptions.series = smaSeries;
+        }
+
         var mainChart = new google.visualization.ChartWrapper({
           chartType: "ComboChart",
           containerId: "chart_div",
-          options: {
-            hAxis: { slantedText: false },
-            legend: { position: "none" },
-            candlestick: {
-              fallingColor: { strokeWidth: 0, fill: "#a52714" },
-              risingColor: { strokeWidth: 0, fill: "#0f9d58" },
-            },
-            seriesType: "candlesticks",
-          },
+          options: chartOptions,
           view: {
-            columns: [
-              {
-                calc: function (dt, row) {
-                  return dt.getFormattedValue(row, 0);
-                },
-                type: "string",
-              },
-              1,
-              2,
-              3,
-              4,
-            ],
+            columns: buildMainChartViewColumns(),
           },
         });
 
@@ -101,6 +149,13 @@
           duration: config.candlestick.duration,
         };
 
+        if (config.sma.enable === true) {
+          params["sma"] = true;
+          params["smaPeriod1"] = config.sma.periods[0];
+          params["smaPeriod2"] = config.sma.periods[1];
+          params["smaPeriod3"] = config.sma.periods[2];
+        }
+
         $.getJSON("/api/candle/", params)
           .done(function (data) {
             console.log(data);
@@ -110,23 +165,49 @@
               return;
             }
 
+            initConfigValues();
             var dataTable = new google.visualization.DataTable();
             dataTable.addColumn("datetime", "Time");
             dataTable.addColumn("number", "Low");
             dataTable.addColumn("number", "Open");
             dataTable.addColumn("number", "Close");
             dataTable.addColumn("number", "High");
+            if (data.smas && data.smas.length > 0) {
+              for (var s = 0; s < data.smas.length; s++) {
+                var smaData = data.smas[s];
+                if (!smaData.values || smaData.values.length === 0) {
+                  continue;
+                }
+                config.dataTable.index += 1;
+                config.sma.indexes[s] = config.dataTable.index;
+                dataTable.addColumn(
+                  "number",
+                  "SMA" + smaData.period.toString(),
+                );
+                config.sma.values[s] = smaData.values;
+              }
+            }
 
             var rows = [];
             for (var i = 0; i < candles.length; i++) {
               var candle = candles[i];
-              rows.push([
+              var row = [
                 new Date(candle.time),
                 candle.low,
                 candle.open,
                 candle.close,
                 candle.high,
-              ]);
+              ];
+              for (var j = 0; j < config.sma.values.length; j++) {
+                var smaValues = config.sma.values[j];
+                if (!smaValues) {
+                  row.push(null);
+                  continue;
+                }
+                var v = smaValues[i];
+                row.push(v != null && !isNaN(v) ? v : null);
+              }
+              rows.push(row);
             }
 
             dataTable.addRows(rows);
@@ -145,7 +226,14 @@
       }
 
       google.charts.load("current", { packages: ["corechart", "controls"] });
+      function initSmaPeriods() {
+        config.sma.periods[0] = parseInt($("#inputSmaPeriod1").val(), 10) || 7;
+        config.sma.periods[1] = parseInt($("#inputSmaPeriod2").val(), 10) || 14;
+        config.sma.periods[2] = parseInt($("#inputSmaPeriod3").val(), 10) || 21;
+      }
+
       google.charts.setOnLoadCallback(function () {
+        initSmaPeriods();
         send();
         setInterval(send, config.api.interval);
 
@@ -156,6 +244,26 @@
           .mouseleave(function () {
             config.api.enable = true;
           });
+        $("#inputSma").change(function () {
+          if (this.checked === true) {
+            config.sma.enable = true;
+          } else {
+            config.sma.enable = false;
+          }
+          send();
+        });
+        $("#inputSmaPeriod1").change(function () {
+          config.sma.periods[0] = parseInt(this.value);
+          send();
+        });
+        $("#inputSmaPeriod2").change(function () {
+          config.sma.periods[1] = parseInt(this.value);
+          send();
+        });
+        $("#inputSmaPeriod3").change(function () {
+          config.sma.periods[2] = parseInt(this.value);
+          send();
+        });
       });
     </script>
   </head>
@@ -164,6 +272,14 @@
       <button onclick="changeDuration('1s')">1s</button>
       <button onclick="changeDuration('1m')">1m</button>
       <button onclick="changeDuration('1h')">1h</button>
+      <button onclick="changeDuration('1mo')">1mo</button>
+      <button onclick="changeDuration('1y')">1y</button>
+    </div>
+    <div>
+      SMA <input id="inputSma" type="checkbox" /> Period
+      <input id="inputSmaPeriod1" type="number" value="7" min="1" style="width: 40px" />
+      <input id="inputSmaPeriod2" type="number" value="14" min="1" style="width: 40px" />
+      <input id="inputSmaPeriod3" type="number" value="21" min="1" style="width: 40px" />
     </div>
     <div id="status"></div>
     <div id="dashboard_div">
