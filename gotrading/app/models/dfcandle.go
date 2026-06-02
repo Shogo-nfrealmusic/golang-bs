@@ -19,6 +19,7 @@ type DataFrameCandle struct {
 	Ichimoku *Ichimoku `json:"ichimoku,omitempty"`
 	Rsis    []Rsi     `json:"rsis,omitempty"`
 	Macds   []Macd    `json:"macds,omitempty"`
+	Hvs     []Hv      `json:"hvs,omitempty"`
 }
 
 type Sma struct {
@@ -59,6 +60,11 @@ type Macd struct {
 	Macd         []*float64 `json:"macd,omitempty"`
 	Signal       []*float64 `json:"signal,omitempty"`
 	Hist         []*float64 `json:"hist,omitempty"`
+}
+
+type Hv struct {
+	Period int        `json:"period,omitempty"`
+	Values []*float64 `json:"values,omitempty"`
 }
 
 func (df * DataFrameCandle) Times() []time.Time {
@@ -225,6 +231,34 @@ func (df *DataFrameCandle) AddMacd(fast, slow, signal int) bool {
 		Macd:         floatsToNullableJSON(macdLine),
 		Signal:       floatsToNullableJSON(signalLine),
 		Hist:         floatsToNullableJSON(hist),
+	})
+	return true
+}
+
+func periodsPerYear(duration time.Duration) float64 {
+	if duration <= 0 {
+		return 252
+	}
+	year := float64(365 * 24 * time.Hour)
+	return year / float64(duration)
+}
+
+func (df *DataFrameCandle) AddHistoricalVolatility(period int) bool {
+	if period <= 0 {
+		period = 20
+	}
+	if len(df.Candles) <= period {
+		return false
+	}
+
+	values := dtadingalgo.HistoricalVolatility(
+		df.Close(),
+		period,
+		periodsPerYear(df.Duration),
+	)
+	df.Hvs = append(df.Hvs, Hv{
+		Period: period,
+		Values: floatsToNullableJSON(values),
 	})
 	return true
 }

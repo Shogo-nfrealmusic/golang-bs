@@ -128,3 +128,60 @@ func copyLine(dst, src []float64) {
 func valid(v float64) bool {
 	return !math.IsNaN(v) && !math.IsInf(v, 0)
 }
+
+// HistoricalVolatility calculates annualized historical volatility in percent.
+// It uses the standard deviation of log returns over period, scaled by sqrt(periodsPerYear).
+func HistoricalVolatility(closes []float64, period int, periodsPerYear float64) []float64 {
+	n := len(closes)
+	out := make([]float64, n)
+	for i := range out {
+		out[i] = math.NaN()
+	}
+	if period <= 1 || n <= period || periodsPerYear <= 0 {
+		return out
+	}
+
+	logReturns := make([]float64, n)
+	for i := 1; i < n; i++ {
+		if closes[i-1] > 0 && closes[i] > 0 {
+			logReturns[i] = math.Log(closes[i] / closes[i-1])
+		} else {
+			logReturns[i] = math.NaN()
+		}
+	}
+
+	annualScale := math.Sqrt(periodsPerYear) * 100
+	for i := period; i < n; i++ {
+		std := stdDev(logReturns[i-period+1 : i+1])
+		if valid(std) {
+			out[i] = std * annualScale
+		}
+	}
+	return out
+}
+
+func stdDev(values []float64) float64 {
+	var sum float64
+	count := 0
+	for _, v := range values {
+		if !valid(v) {
+			continue
+		}
+		sum += v
+		count++
+	}
+	if count <= 1 {
+		return math.NaN()
+	}
+
+	mean := sum / float64(count)
+	var sqDiff float64
+	for _, v := range values {
+		if !valid(v) {
+			continue
+		}
+		diff := v - mean
+		sqDiff += diff * diff
+	}
+	return math.Sqrt(sqDiff / float64(count-1))
+}

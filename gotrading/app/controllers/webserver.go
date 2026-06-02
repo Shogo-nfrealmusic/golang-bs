@@ -231,6 +231,15 @@ func apiCandleHandler(w http.ResponseWriter, r *http.Request) {
 		df.AddMacd(fast, slow, signal)
 	}
 
+	hv := r.URL.Query().Get("hv")
+	if hv != "" {
+		period := 20
+		if v, err := strconv.Atoi(r.URL.Query().Get("hvPeriod")); err == nil && v > 0 {
+			period = v
+		}
+		df.AddHistoricalVolatility(period)
+	}
+
 	js, err := json.Marshal(df)
 	if err != nil {
 		APIError(w, err, http.StatusInternalServerError)
