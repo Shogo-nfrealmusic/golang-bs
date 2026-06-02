@@ -205,6 +205,15 @@ func apiCandleHandler(w http.ResponseWriter, r *http.Request) {
 		df.AddIchimoku(tenkan, kikun, senkouB, displacement)
 	}
 
+	rsi := r.URL.Query().Get("rsi")
+	if rsi != "" {
+		period := 14
+		if v, err := strconv.Atoi(r.URL.Query().Get("rsiPeriod")); err == nil && v > 0 {
+			period = v
+		}
+		df.AddRsi(period)
+	}
+
 	js, err := json.Marshal(df)
 	if err != nil {
 		APIError(w, err, http.StatusInternalServerError)

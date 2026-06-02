@@ -17,6 +17,7 @@ type DataFrameCandle struct {
 	Emas    []Ema     `json:"emas,omitempty"`
 	Bbands   []Bbands  `json:"bbands,omitempty"`
 	Ichimoku *Ichimoku `json:"ichimoku,omitempty"`
+	Rsis    []Rsi     `json:"rsis,omitempty"`
 }
 
 type Sma struct {
@@ -43,6 +44,11 @@ type Ichimoku struct {
 	SenkouA []*float64 `json:"senkou_a,omitempty"`
 	SenkouB []*float64 `json:"senkou_b,omitempty"`
 	Chikou  []*float64 `json:"chikou,omitempty"`
+}
+
+type Rsi struct {
+	Period int         `json:"period,omitempty"`
+	Values []*float64  `json:"values,omitempty"`
 }
 
 func (df * DataFrameCandle) Times() []time.Time {
@@ -166,6 +172,20 @@ func (df *DataFrameCandle) AddIchimoku(tenkan, kikun, senkouB, displacement int)
 		SenkouB: floatsToNullableJSON(lines.SenkouB),
 		Chikou:  floatsToNullableJSON(lines.Chikou),
 	}
+	return true
+}
+
+func (df *DataFrameCandle) AddRsi(period int) bool {
+	if period <= 0 {
+		period = 14
+	}
+	if len(df.Candles) <= period {
+		return false
+	}
+	df.Rsis = append(df.Rsis, Rsi{
+		Period: period,
+		Values: floatsToNullableJSON(talib.Rsi(df.Close(), period)),
+	})
 	return true
 }
 
