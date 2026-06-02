@@ -214,6 +214,23 @@ func apiCandleHandler(w http.ResponseWriter, r *http.Request) {
 		df.AddRsi(period)
 	}
 
+	macd := r.URL.Query().Get("macd")
+	if macd != "" {
+		fast := 12
+		slow := 26
+		signal := 9
+		if v, err := strconv.Atoi(r.URL.Query().Get("macdFast")); err == nil && v > 0 {
+			fast = v
+		}
+		if v, err := strconv.Atoi(r.URL.Query().Get("macdSlow")); err == nil && v > 0 {
+			slow = v
+		}
+		if v, err := strconv.Atoi(r.URL.Query().Get("macdSignal")); err == nil && v > 0 {
+			signal = v
+		}
+		df.AddMacd(fast, slow, signal)
+	}
+
 	js, err := json.Marshal(df)
 	if err != nil {
 		APIError(w, err, http.StatusInternalServerError)

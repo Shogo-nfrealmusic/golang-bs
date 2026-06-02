@@ -18,6 +18,10 @@
         height: 120px;
         margin-top: 4px;
       }
+      #macd_div {
+        height: 140px;
+        margin-top: 4px;
+      }
       #filter_div {
         height: 80px;
         margin-top: 8px;
@@ -75,6 +79,13 @@
           indexes: [],
           values: [],
         },
+        macd: {
+          enable: false,
+          fast: 12,
+          slow: 26,
+          signal: 9,
+          set: null,
+        },
       };
 
       function initConfigValues() {
@@ -88,6 +99,7 @@
         config.volume.index = 5;
         config.rsi.indexes = [];
         config.rsi.values = [];
+        config.macd.set = null;
       }
 
       function appendOverlayIndexes(cols, indexes) {
@@ -351,6 +363,43 @@
         }
       }
 
+      function addMacdColumns(dataTable, items) {
+        if (!items || items.length === 0) {
+          return;
+        }
+        var macdData = items[0];
+        if (!macdData.hist || macdData.hist.length === 0) {
+          return;
+        }
+        config.dataTable.index += 1;
+        var indexHist = config.dataTable.index;
+        dataTable.addColumn("number", "MACDHist");
+        config.dataTable.index += 1;
+        var indexMacd = config.dataTable.index;
+        dataTable.addColumn("number", "MACD");
+        config.dataTable.index += 1;
+        var indexSignal = config.dataTable.index;
+        dataTable.addColumn("number", "Signal");
+        config.macd.set = {
+          indexHist: indexHist,
+          indexMacd: indexMacd,
+          indexSignal: indexSignal,
+          hist: macdData.hist,
+          macd: macdData.macd,
+          signal: macdData.signal,
+        };
+      }
+
+      function appendMacdValues(row, candleIndex) {
+        if (!config.macd.set) {
+          return;
+        }
+        var s = config.macd.set;
+        row.push(sanitizeChartValue(s.hist[candleIndex]));
+        row.push(sanitizeChartValue(s.macd[candleIndex]));
+        row.push(sanitizeChartValue(s.signal[candleIndex]));
+      }
+
       function drawChart(dataTable) {
         var dashboard = new google.visualization.Dashboard(
           document.getElementById("dashboard_div"),
@@ -426,6 +475,36 @@
           document.getElementById("rsi_div").innerHTML = "";
         }
 
+        if (config.macd.enable === true && config.macd.set) {
+          var macdChart = new google.visualization.ChartWrapper({
+            chartType: "ComboChart",
+            containerId: "macd_div",
+            options: {
+              legend: { position: "bottom" },
+              hAxis: { slantedText: false },
+              vAxis: { textPosition: "none" },
+              chartArea: { width: "100%", height: "70%" },
+              seriesType: "bars",
+              series: {
+                0: { type: "bars", color: "#90a4ae" },
+                1: { type: "line", lineWidth: 2, color: "#2196f3" },
+                2: { type: "line", lineWidth: 2, color: "#ff9800" },
+              },
+            },
+            view: {
+              columns: [
+                0,
+                config.macd.set.indexHist,
+                config.macd.set.indexMacd,
+                config.macd.set.indexSignal,
+              ],
+            },
+          });
+          charts.push(macdChart);
+        } else {
+          document.getElementById("macd_div").innerHTML = "";
+        }
+
         var controlWrapper = new google.visualization.ControlWrapper({
           controlType: "ChartRangeFilter",
           containerId: "filter_div",
@@ -485,6 +564,12 @@
           params["rsi"] = true;
           params["rsiPeriod"] = config.rsi.period;
         }
+        if (config.macd.enable === true) {
+          params["macd"] = true;
+          params["macdFast"] = config.macd.fast;
+          params["macdSlow"] = config.macd.slow;
+          params["macdSignal"] = config.macd.signal;
+        }
 
         $.getJSON("/api/candle/", params)
           .done(function (data) {
@@ -514,6 +599,7 @@
             addBbandsColumns(dataTable, data.bbands);
             addIchimokuColumns(dataTable, data.ichimoku);
             addRsiColumns(dataTable, data.rsis);
+            addMacdColumns(dataTable, data.macds);
 
             var rows = [];
             for (var i = 0; i < candles.length; i++) {
@@ -533,6 +619,7 @@
               appendBbandsValues(row, i);
               appendIchimokuValues(row, i);
               appendRsiValues(row, i);
+              appendMacdValues(row, i);
               rows.push(row);
             }
 
@@ -562,6 +649,9 @@
         config.bbands.n = parseInt($("#inputBbandsN").val(), 10) || 20;
         config.bbands.k = parseFloat($("#inputBbandsK").val()) || 2;
         config.rsi.period = parseInt($("#inputRsiPeriod").val(), 10) || 14;
+        config.macd.fast = parseInt($("#inputMacdFast").val(), 10) || 12;
+        config.macd.slow = parseInt($("#inputMacdSlow").val(), 10) || 26;
+        config.macd.signal = parseInt($("#inputMacdSignal").val(), 10) || 9;
       }
 
       google.charts.setOnLoadCallback(function () {
@@ -640,6 +730,22 @@
           config.rsi.period = parseInt(this.value, 10) || 14;
           send();
         });
+        $("#inputMacd").change(function () {
+          config.macd.enable = this.checked === true;
+          send();
+        });
+        $("#inputMacdFast").change(function () {
+          config.macd.fast = parseInt(this.value, 10) || 12;
+          send();
+        });
+        $("#inputMacdSlow").change(function () {
+          config.macd.slow = parseInt(this.value, 10) || 26;
+          send();
+        });
+        $("#inputMacdSignal").change(function () {
+          config.macd.signal = parseInt(this.value, 10) || 9;
+          send();
+        });
       });
     </script>
   </head>
@@ -679,11 +785,18 @@
       RSI <input id="inputRsi" type="checkbox" />
       Period <input id="inputRsiPeriod" type="number" value="14" min="2" style="width: 40px" />
     </div>
+    <div>
+      MACD <input id="inputMacd" type="checkbox" />
+      Fast <input id="inputMacdFast" type="number" value="12" min="2" style="width: 40px" />
+      Slow <input id="inputMacdSlow" type="number" value="26" min="3" style="width: 40px" />
+      Signal <input id="inputMacdSignal" type="number" value="9" min="2" style="width: 40px" />
+    </div>
     <div id="status"></div>
     <div id="dashboard_div">
       <div id="chart_div"></div>
       <div id="volume_div"></div>
       <div id="rsi_div"></div>
+      <div id="macd_div"></div>
       <div id="filter_div"></div>
     </div>
   </body>

@@ -18,6 +18,7 @@ type DataFrameCandle struct {
 	Bbands   []Bbands  `json:"bbands,omitempty"`
 	Ichimoku *Ichimoku `json:"ichimoku,omitempty"`
 	Rsis    []Rsi     `json:"rsis,omitempty"`
+	Macds   []Macd    `json:"macds,omitempty"`
 }
 
 type Sma struct {
@@ -47,8 +48,17 @@ type Ichimoku struct {
 }
 
 type Rsi struct {
-	Period int         `json:"period,omitempty"`
-	Values []*float64  `json:"values,omitempty"`
+	Period int        `json:"period,omitempty"`
+	Values []*float64 `json:"values,omitempty"`
+}
+
+type Macd struct {
+	FastPeriod   int        `json:"fast_period,omitempty"`
+	SlowPeriod   int        `json:"slow_period,omitempty"`
+	SignalPeriod int        `json:"signal_period,omitempty"`
+	Macd         []*float64 `json:"macd,omitempty"`
+	Signal       []*float64 `json:"signal,omitempty"`
+	Hist         []*float64 `json:"hist,omitempty"`
 }
 
 func (df * DataFrameCandle) Times() []time.Time {
@@ -185,6 +195,36 @@ func (df *DataFrameCandle) AddRsi(period int) bool {
 	df.Rsis = append(df.Rsis, Rsi{
 		Period: period,
 		Values: floatsToNullableJSON(talib.Rsi(df.Close(), period)),
+	})
+	return true
+}
+
+func (df *DataFrameCandle) AddMacd(fast, slow, signal int) bool {
+	if fast <= 0 {
+		fast = 12
+	}
+	if slow <= 0 {
+		slow = 26
+	}
+	if signal <= 0 {
+		signal = 9
+	}
+	if fast >= slow {
+		return false
+	}
+	minLen := slow + signal
+	if len(df.Candles) <= minLen {
+		return false
+	}
+
+	macdLine, signalLine, hist := talib.Macd(df.Close(), fast, slow, signal)
+	df.Macds = append(df.Macds, Macd{
+		FastPeriod:   fast,
+		SlowPeriod:   slow,
+		SignalPeriod: signal,
+		Macd:         floatsToNullableJSON(macdLine),
+		Signal:       floatsToNullableJSON(signalLine),
+		Hist:         floatsToNullableJSON(hist),
 	})
 	return true
 }
