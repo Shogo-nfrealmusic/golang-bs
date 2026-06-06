@@ -98,6 +98,9 @@ func apiCandleHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	limit := 100
+	if config.Config.BackTest && config.Config.DataLimit > 0 {
+		limit = config.Config.DataLimit
+	}
 	if strLimit := r.URL.Query().Get("limit"); strLimit != "" {
 		n, err := strconv.Atoi(strLimit)
 		if err != nil || n <= 0 || n > 1000 {
@@ -145,6 +148,8 @@ func apiCandleHandler(w http.ResponseWriter, r *http.Request) {
 		df.AddSma(period3)
 	}
 
+	emaPeriod1 := 12
+	emaPeriod2 := 26
 	ema := r.URL.Query().Get("ema")
 	if ema != "" {
 		strEmaPeriod1 := r.URL.Query().Get("emaPeriod1")
@@ -162,11 +167,15 @@ func apiCandleHandler(w http.ResponseWriter, r *http.Request) {
 		if strEmaPeriod3 == "" || err != nil || period3 < 0 {
 			period3 = 50
 		}
+		emaPeriod1 = period1
+		emaPeriod2 = period2
 		df.AddEma(period1)
 		df.AddEma(period2)
 		df.AddEma(period3)
 	}
 
+	bbandsN := 20
+	bbandsK := 2.0
 	bbands := r.URL.Query().Get("bbands")
 	if bbands != "" {
 		n := 20
@@ -181,6 +190,8 @@ func apiCandleHandler(w http.ResponseWriter, r *http.Request) {
 				k = parsed
 			}
 		}
+		bbandsN = n
+		bbandsK = k
 		df.AddBbands(n, k)
 	}
 
@@ -242,7 +253,53 @@ func apiCandleHandler(w http.ResponseWriter, r *http.Request) {
 
 	events := r.URL.Query().Get("events")
 	if events != "" && len(df.Candles) > 0 {
-		df.AddEvents(df.Candles[0].Time)
+		if config.Config.BackTest {
+			opts := models.BackTestOptions{
+				UsePercent:       config.Config.UsePercet,
+				StopLimitPercent: config.Config.StopLimitPercet,
+			}
+			strategy := r.URL.Query().Get("strategy")
+			if strategy == "" {
+				strategy = "ema"
+			}
+			optimize := r.URL.Query().Get("optimize") != "false"
+			df.BackTestStrategy = strategy
+
+			switch strategy {
+			case "bbands":
+				if optimize {
+					ranking := df.OptimizeBbandsBackTest(10, 40, config.Config.NumRanking, opts)
+					df.BbandsBackTestRanking = ranking
+					if len(ranking) > 0 {
+						best := ranking[0]
+						df.BestBbandsN = best.N
+						df.BestBbandsK = best.K
+						df.Events = df.BackTestBbands(best.N, best.K, opts)
+					}
+				} else {
+					df.Events = df.BackTestBbands(bbandsN, bbandsK, opts)
+					df.BestBbandsN = bbandsN
+					df.BestBbandsK = bbandsK
+				}
+			default:
+				if optimize {
+					ranking := df.OptimizeEmaBackTest(5, 50, config.Config.NumRanking, opts)
+					df.BackTestRanking = ranking
+					if len(ranking) > 0 {
+						best := ranking[0]
+						df.BestEmaPeriod1 = best.Period1
+						df.BestEmaPeriod2 = best.Period2
+						df.Events = df.BackTestEma(best.Period1, best.Period2, opts)
+					}
+				} else {
+					df.Events = df.BackTestEma(emaPeriod1, emaPeriod2, opts)
+					df.BestEmaPeriod1 = emaPeriod1
+					df.BestEmaPeriod2 = emaPeriod2
+				}
+			}
+		} else {
+			df.AddEvents(df.Candles[0].Time)
+		}
 	}
 
 	js, err := json.Marshal(df)

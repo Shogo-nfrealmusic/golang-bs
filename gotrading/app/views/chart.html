@@ -2,810 +2,839 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Chart</title>
     <style>
-      #dashboard_div {
-        width: 900px;
+      * {
+        box-sizing: border-box;
       }
-      #chart_div {
-        height: 450px;
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        font-size: 13px;
+        color: #1a1a2e;
+        background: #f0f2f5;
       }
-      #volume_div {
-        height: 120px;
-        margin-top: 4px;
+      .app-header {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 10px 16px;
+        background: #1a1a2e;
+        color: #fff;
       }
-      #rsi_div {
-        height: 120px;
-        margin-top: 4px;
+      .app-header h1 {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 600;
       }
-      #macd_div {
-        height: 140px;
-        margin-top: 4px;
+      .duration-group {
+        display: flex;
+        gap: 4px;
       }
-      #hv_div {
-        height: 120px;
-        margin-top: 4px;
+      .duration-group button {
+        padding: 4px 12px;
+        border: 1px solid #4a5568;
+        border-radius: 4px;
+        background: #2d3748;
+        color: #e2e8f0;
+        cursor: pointer;
+        font-size: 12px;
       }
-      #filter_div {
-        height: 80px;
-        margin-top: 8px;
+      .duration-group button:hover {
+        background: #4a5568;
+      }
+      .duration-group button.active {
+        background: #3182ce;
+        border-color: #3182ce;
+        color: #fff;
+      }
+      #status {
+        margin-left: auto;
+        font-size: 12px;
+        color: #a0aec0;
+      }
+      .controls-panel {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 8px;
+        padding: 10px 16px;
+        background: #fff;
+        border-bottom: 1px solid #e2e8f0;
+      }
+      .control-card {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 6px;
+        padding: 8px 10px;
+        border: 1px solid #e2e8f0;
+        border-radius: 6px;
+        background: #fafbfc;
+      }
+      .control-card label {
+        font-weight: 600;
+        min-width: 52px;
+        color: #4a5568;
+      }
+      .control-card input[type="number"] {
+        width: 44px;
+        padding: 3px 4px;
+        border: 1px solid #cbd5e0;
+        border-radius: 4px;
+        font-size: 12px;
+      }
+      .control-card .hint {
+        font-size: 11px;
+        color: #718096;
+      }
+      .events-bar {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 8px 16px;
+        background: #edf2f7;
+        border-bottom: 1px solid #e2e8f0;
+      }
+      #profit_label {
+        font-weight: 600;
+        color: #2b6cb0;
+      }
+      #ranking_div table {
+        border-collapse: collapse;
+        background: #fff;
+        font-size: 12px;
+      }
+      #ranking_div th,
+      #ranking_div td {
+        border: 1px solid #e2e8f0;
+        padding: 3px 8px;
+        text-align: right;
+      }
+      #ranking_div th:first-child,
+      #ranking_div td:first-child {
+        text-align: center;
+      }
+      #ranking_div th {
+        background: #f7fafc;
+      }
+      .chart-area {
+        padding: 12px 16px 20px;
+      }
+      .lw-panel {
+        position: relative;
+        width: 100%;
+        background: #fff;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        overflow: hidden;
+        margin-bottom: 6px;
+      }
+      #main_chart_panel {
+        height: min(62vh, 680px);
+        min-height: 440px;
+      }
+      .lw-panel.sub-panel {
+        height: 130px;
+      }
+      .lw-panel.macd-panel {
+        height: 150px;
+      }
+      .panel-label {
+        position: absolute;
+        top: 6px;
+        left: 10px;
+        z-index: 2;
+        font-size: 11px;
+        font-weight: 600;
+        color: #718096;
+        pointer-events: none;
+      }
+      .panel-hidden {
+        display: none !important;
+      }
+      .chart-hint {
+        padding: 0 16px 12px;
+        font-size: 11px;
+        color: #718096;
       }
     </style>
-    <script
-      type="text/javascript"
-      src="https://www.gstatic.com/charts/loader.js"
-    ></script>
+    <script src="https://unpkg.com/lightweight-charts@4.2.0/dist/lightweight-charts.standalone.production.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script type="text/javascript">
       var config = {
-        api: {
-          interval: 1000 * 3,
-          enable: true,
-        },
+        api: { interval: 1000 * 3, enable: true },
         candlestick: {
           product_code: "BTC_JPY",
           duration: "1m",
-          limit: 365,
+          limit: 120,
         },
-        dataTable: {
-          index: 0,
-          value: null,
-        },
-        sma: {
-          enable: false,
-          indexes: [],
-          periods: [],
-          values: [],
-        },
-        ema: {
-          enable: false,
-          indexes: [],
-          periods: [],
-          values: [],
-        },
-        bbands: {
-          enable: false,
-          n: 20,
-          k: 2,
-          sets: [],
-        },
-        ichimoku: {
-          enable: false,
-          set: null,
-        },
-        volume: {
-          enable: false,
-          index: 5,
-        },
-        rsi: {
-          enable: false,
-          period: 14,
-          indexes: [],
-          values: [],
-        },
-        macd: {
-          enable: false,
-          fast: 12,
-          slow: 26,
-          signal: 9,
-          set: null,
-        },
-        hv: {
-          enable: false,
-          period: 20,
-          indexes: [],
-          values: [],
-        },
-        events: {
-          enable: false,
-          indexBuy: null,
-          indexSell: null,
-          map: null,
-          profit: null,
-        },
+        display: { savedLogicalRange: null },
+        sma: { enable: false, periods: [7, 14, 21] },
+        ema: { enable: false, periods: [12, 26, 50] },
+        bbands: { enable: false, n: 20, k: 2 },
+        ichimoku: { enable: false },
+        volume: { enable: false },
+        rsi: { enable: false, period: 14 },
+        macd: { enable: false, fast: 12, slow: 26, signal: 9 },
+        hv: { enable: false, period: 20 },
+        events: { enable: false, strategy: "ema" },
       };
 
-      function initConfigValues() {
-        config.dataTable.index = 0;
-        config.sma.indexes = [];
-        config.sma.values = [];
-        config.ema.indexes = [];
-        config.ema.values = [];
-        config.bbands.sets = [];
-        config.ichimoku.set = null;
-        config.volume.index = 5;
-        config.rsi.indexes = [];
-        config.rsi.values = [];
-        config.macd.set = null;
-        config.hv.indexes = [];
-        config.hv.values = [];
-        config.events.indexBuy = null;
-        config.events.indexSell = null;
-        config.events.map = null;
-        config.events.profit = null;
+      var SMA_COLORS = ["#2563eb", "#dc2626", "#d97706"];
+      var EMA_COLORS = ["#7c3aed", "#0891b2", "#db2777"];
+      var ICHIMOKU_COLORS = ["#e53935", "#1e88e5", "#43a047", "#fb8c00", "#8e24aa"];
+      var ICHIMOKU_KEYS = ["tenkan", "kikun", "senkou_a", "senkou_b", "chikou"];
+      var ICHIMOKU_LABELS = ["転換", "基準", "先行A", "先行B", "遅行"];
+
+      var charts = {
+        main: null,
+        volume: null,
+        rsi: null,
+        macd: null,
+        hv: null,
+        overlays: [],
+        volumeSeries: null,
+        rsiSeries: null,
+        macdHist: null,
+        macdLine: null,
+        macdSignal: null,
+        hvSeries: null,
+        candleSeries: null,
+        rangeSubscribed: false,
+      };
+
+      function parseTime(iso) {
+        return Math.floor(new Date(iso).getTime() / 1000);
       }
 
-      function candleTimeKey(timeValue) {
-        return new Date(timeValue).getTime();
+      function formatProfit(value) {
+        if (value == null || isNaN(value)) return "";
+        if (Math.abs(value) < 1) return value.toFixed(4);
+        return Math.round(value).toLocaleString();
       }
 
-      function buildEventMap(eventsData) {
-        var map = { buy: {}, sell: {} };
-        if (!eventsData || !eventsData.signals) {
-          return map;
+      function setDurationButtonActive(duration) {
+        $(".duration-group button").removeClass("active");
+        $(".duration-group button").each(function () {
+          if ($(this).data("duration") === duration) {
+            $(this).addClass("active");
+          }
+        });
+      }
+
+      function renderBackTestRanking(data) {
+        var container = $("#ranking_div");
+        container.empty();
+        if (!data) return;
+
+        var strategy = data.back_test_strategy || config.events.strategy;
+        var ranking =
+          strategy === "bbands"
+            ? data.bbands_back_test_ranking
+            : data.back_test_ranking;
+        if (!ranking || ranking.length === 0) return;
+
+        var table = $("<table></table>");
+        if (strategy === "bbands") {
+          table.append(
+            "<tr><th>Rank</th><th>N</th><th>K</th><th>Profit</th></tr>",
+          );
+          for (var i = 0; i < ranking.length; i++) {
+            var bb = ranking[i];
+            table.append(
+              "<tr><td>" +
+                (i + 1) +
+                "</td><td>" +
+                bb.n +
+                "</td><td>" +
+                bb.k +
+                "</td><td>" +
+                formatProfit(bb.profit) +
+                "</td></tr>",
+            );
+          }
+          container.append("<strong>BBands Ranking</strong> ");
+        } else {
+          table.append(
+            "<tr><th>Rank</th><th>EMA Short</th><th>EMA Long</th><th>Profit</th></tr>",
+          );
+          for (var j = 0; j < ranking.length; j++) {
+            var row = ranking[j];
+            table.append(
+              "<tr><td>" +
+                (j + 1) +
+                "</td><td>" +
+                row.period1 +
+                "</td><td>" +
+                row.period2 +
+                "</td><td>" +
+                formatProfit(row.profit) +
+                "</td></tr>",
+            );
+          }
+          container.append("<strong>EMA Ranking</strong> ");
         }
+        container.append(table);
+      }
+
+      function baseChartOptions(container, height) {
+        return {
+          width: container.clientWidth,
+          height: height,
+          layout: {
+            backgroundColor: "#ffffff",
+            textColor: "#4a5568",
+            fontSize: 11,
+          },
+          grid: {
+            vertLines: { color: "#edf2f7" },
+            horzLines: { color: "#edf2f7" },
+          },
+          crosshair: { mode: LightweightCharts.CrosshairMode.Normal },
+          rightPriceScale: {
+            borderColor: "#e2e8f0",
+            scaleMargins: { top: 0.08, bottom: 0.08 },
+          },
+          timeScale: {
+            borderColor: "#e2e8f0",
+            timeVisible: true,
+            secondsVisible: config.candlestick.duration === "1s",
+            rightOffset: 6,
+            barSpacing: 10,
+            minBarSpacing: 4,
+          },
+          localization: {
+            priceFormatter: function (price) {
+              return Math.round(price).toLocaleString();
+            },
+          },
+        };
+      }
+
+      function buildCandleData(candles) {
+        var data = [];
+        for (var i = 0; i < candles.length; i++) {
+          var c = candles[i];
+          data.push({
+            time: parseTime(c.time),
+            open: c.open,
+            high: c.high,
+            low: c.low,
+            close: c.close,
+          });
+        }
+        return data;
+      }
+
+      function buildLineData(candles, values) {
+        var data = [];
+        if (!values) return data;
+        for (var i = 0; i < candles.length && i < values.length; i++) {
+          var v = values[i];
+          if (v != null && !isNaN(v)) {
+            data.push({ time: parseTime(candles[i].time), value: v });
+          }
+        }
+        return data;
+      }
+
+      function buildNullableLineData(candles, values) {
+        var data = [];
+        if (!values) return data;
+        for (var i = 0; i < candles.length && i < values.length; i++) {
+          var v = values[i];
+          if (v != null && v !== undefined && !isNaN(v)) {
+            data.push({ time: parseTime(candles[i].time), value: v });
+          }
+        }
+        return data;
+      }
+
+      function buildVolumeData(candles) {
+        var data = [];
+        for (var i = 0; i < candles.length; i++) {
+          var c = candles[i];
+          var vol = c.volume || 0;
+          data.push({
+            time: parseTime(c.time),
+            value: vol,
+            color: c.close >= c.open ? "rgba(56,161,105,0.5)" : "rgba(229,62,62,0.5)",
+          });
+        }
+        return data;
+      }
+
+      function buildEventMarkers(candles, eventsData) {
+        if (!eventsData || !eventsData.signals) return [];
+        var markers = [];
         for (var i = 0; i < eventsData.signals.length; i++) {
           var sig = eventsData.signals[i];
-          var key = candleTimeKey(sig.time);
-          if (sig.side === "BUY") {
-            map.buy[key] = sig.price;
-          }
-          if (sig.side === "SELL") {
-            map.sell[key] = sig.price;
-          }
+          markers.push({
+            time: parseTime(sig.time),
+            position: sig.side === "BUY" ? "belowBar" : "aboveBar",
+            color: sig.side === "BUY" ? "#38a169" : "#e53e3e",
+            shape: sig.side === "BUY" ? "arrowUp" : "arrowDown",
+            text: sig.side,
+          });
         }
-        return map;
+        markers.sort(function (a, b) {
+          return a.time - b.time;
+        });
+        return markers;
       }
 
-      function addEventColumns(dataTable, eventsData) {
-        if (!eventsData || !eventsData.signals || eventsData.signals.length === 0) {
-          return;
+      function clearOverlays() {
+        if (!charts.main) return;
+        for (var i = 0; i < charts.overlays.length; i++) {
+          charts.main.removeSeries(charts.overlays[i]);
         }
-        config.dataTable.index += 1;
-        config.events.indexBuy = config.dataTable.index;
-        dataTable.addColumn("number", "Buy");
-        config.dataTable.index += 1;
-        config.events.indexSell = config.dataTable.index;
-        dataTable.addColumn("number", "Sell");
-        config.events.map = buildEventMap(eventsData);
-        config.events.profit = eventsData.profit;
+        charts.overlays = [];
       }
 
-      function appendEventValues(row, candleTime) {
-        if (!config.events.map) {
-          return;
-        }
-        var key = candleTimeKey(candleTime);
-        var buyPrice = config.events.map.buy[key];
-        var sellPrice = config.events.map.sell[key];
-        row.push(buyPrice != null ? buyPrice : null);
-        row.push(sellPrice != null ? sellPrice : null);
+      function addLineOverlay(candles, values, options) {
+        var series = charts.main.addLineSeries(options);
+        series.setData(buildLineData(candles, values));
+        charts.overlays.push(series);
       }
 
-      function appendOverlayIndexes(cols, indexes) {
-        for (var i = 0; i < indexes.length; i++) {
-          var colIndex = indexes[i];
-          if (colIndex !== undefined) {
-            cols.push(colIndex);
-          }
+      function destroySubChart(key, panelId) {
+        if (charts[key]) {
+          charts[key].remove();
+          charts[key] = null;
         }
+        if (key === "volume") charts.volumeSeries = null;
+        if (key === "rsi") charts.rsiSeries = null;
+        if (key === "macd") {
+          charts.macdHist = null;
+          charts.macdLine = null;
+          charts.macdSignal = null;
+        }
+        if (key === "hv") charts.hvSeries = null;
+        document.getElementById(panelId).classList.add("panel-hidden");
       }
 
-      function buildMainChartViewColumns() {
-        var cols = [
-          {
-            calc: function (dt, row) {
-              return dt.getFormattedValue(row, 0);
-            },
-            type: "string",
-          },
-          1,
-          2,
-          3,
-          4,
-        ];
-        appendOverlayIndexes(cols, config.sma.indexes);
-        appendOverlayIndexes(cols, config.ema.indexes);
-        for (var b = 0; b < config.bbands.sets.length; b++) {
-          var bbSet = config.bbands.sets[b];
-          appendOverlayIndexes(cols, [bbSet.indexUp, bbSet.indexMid, bbSet.indexDown]);
-        }
-        if (config.ichimoku.set) {
-          appendOverlayIndexes(cols, config.ichimoku.set.indexes);
-        }
-        if (config.events.indexBuy !== null && config.events.indexSell !== null) {
-          appendOverlayIndexes(cols, [
-            config.events.indexBuy,
-            config.events.indexSell,
-          ]);
-        }
-        return cols;
+      function getSubChartTargets() {
+        var targets = [];
+        if (charts.volume) targets.push(charts.volume);
+        if (charts.rsi) targets.push(charts.rsi);
+        if (charts.macd) targets.push(charts.macd);
+        if (charts.hv) targets.push(charts.hv);
+        return targets;
       }
 
-      function buildOverlaySeriesOptions() {
-        var series = {};
-        var smaColors = ["#3366cc", "#dc3912", "#ff9900"];
-        var emaColors = ["#9900cc", "#00acc1", "#e91e63"];
-        var seriesIndex = 1;
-        for (var i = 0; i < config.sma.indexes.length; i++) {
-          if (config.sma.indexes[i] !== undefined) {
-            series[seriesIndex] = {
-              type: "line",
-              lineWidth: 1,
-              color: smaColors[i % smaColors.length],
-            };
-            seriesIndex += 1;
+      function subscribeRangeSync() {
+        if (!charts.main || charts.rangeSubscribed) return;
+        charts.rangeSubscribed = true;
+        charts.main.timeScale().subscribeVisibleLogicalRangeChange(function (range) {
+          if (!range) return;
+          config.display.savedLogicalRange = range;
+          var targets = getSubChartTargets();
+          for (var i = 0; i < targets.length; i++) {
+            targets[i].timeScale().setVisibleLogicalRange(range);
           }
-        }
-        for (var j = 0; j < config.ema.indexes.length; j++) {
-          if (config.ema.indexes[j] !== undefined) {
-            series[seriesIndex] = {
-              type: "line",
-              lineWidth: 1,
-              lineDashStyle: [6, 4],
-              color: emaColors[j % emaColors.length],
-            };
-            seriesIndex += 1;
-          }
-        }
-        for (var b = 0; b < config.bbands.sets.length; b++) {
-          var bbSet = config.bbands.sets[b];
-          if (bbSet.indexUp !== undefined) {
-            series[seriesIndex] = {
-              type: "line",
-              lineWidth: 1,
-              color: "#90a4ae",
-            };
-            seriesIndex += 1;
-          }
-          if (bbSet.indexMid !== undefined) {
-            series[seriesIndex] = {
-              type: "line",
-              lineWidth: 1,
-              lineDashStyle: [2, 2],
-              color: "#546e7a",
-            };
-            seriesIndex += 1;
-          }
-          if (bbSet.indexDown !== undefined) {
-            series[seriesIndex] = {
-              type: "line",
-              lineWidth: 1,
-              color: "#90a4ae",
-            };
-            seriesIndex += 1;
-          }
-        }
-        if (config.ichimoku.set) {
-          var ichimokuSeries = [
-            { color: "#e53935", lineWidth: 1 },
-            { color: "#1e88e5", lineWidth: 1 },
-            { color: "#43a047", lineWidth: 1, lineDashStyle: [4, 4] },
-            { color: "#fb8c00", lineWidth: 1, lineDashStyle: [4, 4] },
-            { color: "#8e24aa", lineWidth: 1, lineDashStyle: [2, 6] },
-          ];
-          for (var ic = 0; ic < ichimokuSeries.length; ic++) {
-            series[seriesIndex] = {
-              type: "line",
-              lineWidth: ichimokuSeries[ic].lineWidth,
-              color: ichimokuSeries[ic].color,
-            };
-            if (ichimokuSeries[ic].lineDashStyle) {
-              series[seriesIndex].lineDashStyle = ichimokuSeries[ic].lineDashStyle;
-            }
-            seriesIndex += 1;
-          }
-        }
-        if (config.events.indexBuy !== null) {
-          series[seriesIndex] = {
-            type: "scatter",
-            pointSize: 10,
-            color: "#0f9d58",
-          };
-          seriesIndex += 1;
-        }
-        if (config.events.indexSell !== null) {
-          series[seriesIndex] = {
-            type: "scatter",
-            pointSize: 10,
-            color: "#a52714",
-          };
-          seriesIndex += 1;
-        }
-        return series;
+        });
       }
 
-      function hasOverlays() {
-        return (
-          config.sma.indexes.length > 0 ||
-          config.ema.indexes.length > 0 ||
-          config.bbands.sets.length > 0 ||
-          config.ichimoku.set !== null ||
-          config.events.indexBuy !== null
-        );
-      }
-
-      function addMovingAverageColumns(dataTable, items, labelPrefix, target) {
-        if (!items || items.length === 0) {
-          return;
-        }
-        for (var s = 0; s < items.length; s++) {
-          var maData = items[s];
-          if (!maData.values || maData.values.length === 0) {
-            continue;
-          }
-          config.dataTable.index += 1;
-          target.indexes[s] = config.dataTable.index;
-          dataTable.addColumn(
-            "number",
-            labelPrefix + maData.period.toString(),
+      function ensureMainChart() {
+        var panel = document.getElementById("main_chart_panel");
+        var container = document.getElementById("main_chart");
+        if (!charts.main) {
+          charts.main = LightweightCharts.createChart(
+            container,
+            baseChartOptions(container, panel.clientHeight - 2),
           );
-          target.values[s] = maData.values;
-        }
-      }
-
-      function appendMovingAverageValues(row, valuesList, candleIndex) {
-        for (var j = 0; j < valuesList.length; j++) {
-          var maValues = valuesList[j];
-          if (!maValues) {
-            row.push(null);
-            continue;
-          }
-          var v = maValues[candleIndex];
-          row.push(v != null && !isNaN(v) ? v : null);
-        }
-      }
-
-      function sanitizeChartValue(v) {
-        return v != null && !isNaN(v) ? v : null;
-      }
-
-      function addBbandsColumns(dataTable, items) {
-        if (!items || items.length === 0) {
-          return;
-        }
-        for (var b = 0; b < items.length; b++) {
-          var bb = items[b];
-          if (!bb.up || !bb.mid || !bb.down || bb.up.length === 0) {
-            continue;
-          }
-          var label = "BB" + bb.n.toString() + "x" + bb.k.toString();
-          config.dataTable.index += 1;
-          var indexUp = config.dataTable.index;
-          dataTable.addColumn("number", label + " Up");
-          config.dataTable.index += 1;
-          var indexMid = config.dataTable.index;
-          dataTable.addColumn("number", label + " Mid");
-          config.dataTable.index += 1;
-          var indexDown = config.dataTable.index;
-          dataTable.addColumn("number", label + " Down");
-          config.bbands.sets.push({
-            indexUp: indexUp,
-            indexMid: indexMid,
-            indexDown: indexDown,
-            up: bb.up,
-            mid: bb.mid,
-            down: bb.down,
+          charts.candleSeries = charts.main.addCandlestickSeries({
+            upColor: "#38a169",
+            downColor: "#e53e3e",
+            borderUpColor: "#2f855a",
+            borderDownColor: "#c53030",
+            wickUpColor: "#38a169",
+            wickDownColor: "#e53e3e",
+          });
+          subscribeRangeSync();
+        } else {
+          charts.main.applyOptions({
+            width: container.clientWidth,
+            height: panel.clientHeight - 2,
           });
         }
       }
 
-      function appendBbandsValues(row, candleIndex) {
-        for (var b = 0; b < config.bbands.sets.length; b++) {
-          var bbSet = config.bbands.sets[b];
-          row.push(sanitizeChartValue(bbSet.up[candleIndex]));
-          row.push(sanitizeChartValue(bbSet.mid[candleIndex]));
-          row.push(sanitizeChartValue(bbSet.down[candleIndex]));
-        }
-      }
-
-      function addIchimokuColumns(dataTable, ichimoku) {
-        if (!ichimoku) {
-          return;
-        }
-        var lines = [
-          { key: "tenkan", label: "Tenkan" },
-          { key: "kikun", label: "Kikun" },
-          { key: "senkou_a", label: "SenkouA" },
-          { key: "senkou_b", label: "SenkouB" },
-          { key: "chikou", label: "Chikou" },
-        ];
-        var set = { indexes: [], order: [], values: {} };
-        for (var i = 0; i < lines.length; i++) {
-          var line = lines[i];
-          var values = ichimoku[line.key];
-          if (!values || values.length === 0) {
-            continue;
-          }
-          config.dataTable.index += 1;
-          set.indexes.push(config.dataTable.index);
-          set.order.push(line.key);
-          dataTable.addColumn("number", line.label);
-          set.values[line.key] = values;
-        }
-        if (set.order.length > 0) {
-          config.ichimoku.set = set;
-        }
-      }
-
-      function appendIchimokuValues(row, candleIndex) {
-        if (!config.ichimoku.set) {
-          return;
-        }
-        for (var i = 0; i < config.ichimoku.set.order.length; i++) {
-          var key = config.ichimoku.set.order[i];
-          var values = config.ichimoku.set.values[key];
-          row.push(sanitizeChartValue(values[candleIndex]));
-        }
-      }
-
-      function addRsiColumns(dataTable, items) {
-        if (!items || items.length === 0) {
-          return;
-        }
-        for (var r = 0; r < items.length; r++) {
-          var rsiData = items[r];
-          if (!rsiData.values || rsiData.values.length === 0) {
-            continue;
-          }
-          config.dataTable.index += 1;
-          config.rsi.indexes[r] = config.dataTable.index;
-          dataTable.addColumn("number", "RSI" + rsiData.period.toString());
-          config.rsi.values[r] = rsiData.values;
-        }
-      }
-
-      function appendRsiValues(row, candleIndex) {
-        for (var j = 0; j < config.rsi.values.length; j++) {
-          var rsiValues = config.rsi.values[j];
-          if (!rsiValues) {
-            row.push(null);
-            continue;
-          }
-          row.push(sanitizeChartValue(rsiValues[candleIndex]));
-        }
-      }
-
-      function addMacdColumns(dataTable, items) {
-        if (!items || items.length === 0) {
-          return;
-        }
-        var macdData = items[0];
-        if (!macdData.hist || macdData.hist.length === 0) {
-          return;
-        }
-        config.dataTable.index += 1;
-        var indexHist = config.dataTable.index;
-        dataTable.addColumn("number", "MACDHist");
-        config.dataTable.index += 1;
-        var indexMacd = config.dataTable.index;
-        dataTable.addColumn("number", "MACD");
-        config.dataTable.index += 1;
-        var indexSignal = config.dataTable.index;
-        dataTable.addColumn("number", "Signal");
-        config.macd.set = {
-          indexHist: indexHist,
-          indexMacd: indexMacd,
-          indexSignal: indexSignal,
-          hist: macdData.hist,
-          macd: macdData.macd,
-          signal: macdData.signal,
-        };
-      }
-
-      function appendMacdValues(row, candleIndex) {
-        if (!config.macd.set) {
-          return;
-        }
-        var s = config.macd.set;
-        row.push(sanitizeChartValue(s.hist[candleIndex]));
-        row.push(sanitizeChartValue(s.macd[candleIndex]));
-        row.push(sanitizeChartValue(s.signal[candleIndex]));
-      }
-
-      function addHvColumns(dataTable, items) {
-        if (!items || items.length === 0) {
-          return;
-        }
-        for (var h = 0; h < items.length; h++) {
-          var hvData = items[h];
-          if (!hvData.values || hvData.values.length === 0) {
-            continue;
-          }
-          config.dataTable.index += 1;
-          config.hv.indexes[h] = config.dataTable.index;
-          dataTable.addColumn("number", "HV" + hvData.period.toString());
-          config.hv.values[h] = hvData.values;
-        }
-      }
-
-      function appendHvValues(row, candleIndex) {
-        for (var j = 0; j < config.hv.values.length; j++) {
-          var hvValues = config.hv.values[j];
-          if (!hvValues) {
-            row.push(null);
-            continue;
-          }
-          row.push(sanitizeChartValue(hvValues[candleIndex]));
-        }
-      }
-
-      function drawChart(dataTable) {
-        var dashboard = new google.visualization.Dashboard(
-          document.getElementById("dashboard_div"),
+      function createSubChart(panelId, containerId, height, label) {
+        var panel = document.getElementById(panelId);
+        var container = document.getElementById(containerId);
+        panel.classList.remove("panel-hidden");
+        var chart = LightweightCharts.createChart(
+          container,
+          baseChartOptions(container, height),
         );
-
-        var chartOptions = {
-          hAxis: { slantedText: false },
-          legend: { position: hasOverlays() ? "bottom" : "none" },
-          candlestick: {
-            fallingColor: { strokeWidth: 0, fill: "#a52714" },
-            risingColor: { strokeWidth: 0, fill: "#0f9d58" },
-          },
-          seriesType: "candlesticks",
-        };
-        var overlaySeries = buildOverlaySeriesOptions();
-        if (Object.keys(overlaySeries).length > 0) {
-          chartOptions.series = overlaySeries;
+        if (config.display.savedLogicalRange) {
+          chart.timeScale().setVisibleLogicalRange(config.display.savedLogicalRange);
         }
+        return chart;
+      }
 
-        var mainChart = new google.visualization.ChartWrapper({
-          chartType: "ComboChart",
-          containerId: "chart_div",
-          options: chartOptions,
-          view: {
-            columns: buildMainChartViewColumns(),
-          },
-        });
-
-        var charts = [mainChart];
-        if (config.volume.enable === true) {
-          var volumeChart = new google.visualization.ChartWrapper({
-            chartType: "ColumnChart",
-            containerId: "volume_div",
-            options: {
-              legend: { position: "none" },
-              hAxis: { slantedText: false },
-              vAxis: { minValue: 0, textPosition: "none" },
-              chartArea: { width: "100%", height: "80%" },
-              colors: ["#78909c"],
-            },
-            view: {
-              columns: [0, config.volume.index],
-            },
+      function updateVolumeChart(candles) {
+        if (!config.volume.enable) {
+          destroySubChart("volume", "volume_panel");
+          return;
+        }
+        var panel = document.getElementById("volume_panel");
+        var container = document.getElementById("volume_chart");
+        if (!charts.volume) {
+          charts.volume = createSubChart("volume_panel", "volume_chart", panel.clientHeight - 2);
+          charts.volumeSeries = charts.volume.addHistogramSeries({
+            priceFormat: { type: "volume" },
+            priceScaleId: "",
           });
-          charts.push(volumeChart);
-        } else {
-          document.getElementById("volume_div").innerHTML = "";
-        }
-
-        if (config.rsi.enable === true && config.rsi.indexes.length > 0) {
-          var rsiColumns = [0, config.rsi.indexes[0]];
-          var rsiChart = new google.visualization.ChartWrapper({
-            chartType: "LineChart",
-            containerId: "rsi_div",
-            options: {
-              legend: { position: "none" },
-              hAxis: { slantedText: false },
-              vAxis: {
-                minValue: 0,
-                maxValue: 100,
-                viewWindow: { min: 0, max: 100 },
-                ticks: [30, 50, 70],
-              },
-              chartArea: { width: "100%", height: "80%" },
-              colors: ["#7b1fa2"],
-            },
-            view: {
-              columns: rsiColumns,
-            },
+          charts.volume.priceScale("").applyOptions({
+            scaleMargins: { top: 0.05, bottom: 0.05 },
           });
-          charts.push(rsiChart);
         } else {
-          document.getElementById("rsi_div").innerHTML = "";
-        }
-
-        if (config.macd.enable === true && config.macd.set) {
-          var macdChart = new google.visualization.ChartWrapper({
-            chartType: "ComboChart",
-            containerId: "macd_div",
-            options: {
-              legend: { position: "bottom" },
-              hAxis: { slantedText: false },
-              vAxis: { textPosition: "none" },
-              chartArea: { width: "100%", height: "70%" },
-              seriesType: "bars",
-              series: {
-                0: { type: "bars", color: "#90a4ae" },
-                1: { type: "line", lineWidth: 2, color: "#2196f3" },
-                2: { type: "line", lineWidth: 2, color: "#ff9800" },
-              },
-            },
-            view: {
-              columns: [
-                0,
-                config.macd.set.indexHist,
-                config.macd.set.indexMacd,
-                config.macd.set.indexSignal,
-              ],
-            },
+          charts.volume.applyOptions({
+            width: container.clientWidth,
+            height: panel.clientHeight - 2,
           });
-          charts.push(macdChart);
-        } else {
-          document.getElementById("macd_div").innerHTML = "";
         }
+        charts.volumeSeries.setData(buildVolumeData(candles));
+      }
 
-        if (config.hv.enable === true && config.hv.indexes.length > 0) {
-          var hvChart = new google.visualization.ChartWrapper({
-            chartType: "LineChart",
-            containerId: "hv_div",
-            options: {
-              legend: { position: "none" },
-              hAxis: { slantedText: false },
-              vAxis: {
-                minValue: 0,
-                title: "HV % (annualized)",
-              },
-              chartArea: { width: "100%", height: "80%" },
-              colors: ["#00897b"],
-            },
-            view: {
-              columns: [0, config.hv.indexes[0]],
-            },
+      function updateRsiChart(candles, rsis) {
+        if (!config.rsi.enable || !rsis || rsis.length === 0) {
+          destroySubChart("rsi", "rsi_panel");
+          return;
+        }
+        var panel = document.getElementById("rsi_panel");
+        var container = document.getElementById("rsi_chart");
+        if (!charts.rsi) {
+          charts.rsi = createSubChart("rsi_panel", "rsi_chart", panel.clientHeight - 2);
+          charts.rsiSeries = charts.rsi.addLineSeries({
+            color: "#805ad5",
+            lineWidth: 2,
+            priceScaleId: "right",
           });
-          charts.push(hvChart);
+          charts.rsi.priceScale("right").applyOptions({
+            scaleMargins: { top: 0.1, bottom: 0.1 },
+          });
+          charts.rsiSeries.createPriceLine({
+            price: 70,
+            color: "rgba(229,62,62,0.35)",
+            lineWidth: 1,
+            lineStyle: LightweightCharts.LineStyle.Dashed,
+            axisLabelVisible: false,
+          });
+          charts.rsiSeries.createPriceLine({
+            price: 30,
+            color: "rgba(56,161,105,0.35)",
+            lineWidth: 1,
+            lineStyle: LightweightCharts.LineStyle.Dashed,
+            axisLabelVisible: false,
+          });
         } else {
-          document.getElementById("hv_div").innerHTML = "";
+          charts.rsi.applyOptions({
+            width: container.clientWidth,
+            height: panel.clientHeight - 2,
+          });
+        }
+        charts.rsiSeries.setData(buildNullableLineData(candles, rsis[0].values));
+      }
+
+      function updateMacdChart(candles, macds) {
+        if (!config.macd.enable || !macds || macds.length === 0) {
+          destroySubChart("macd", "macd_panel");
+          return;
+        }
+        var macdData = macds[0];
+        if (!macdData.hist || macdData.hist.length === 0) {
+          destroySubChart("macd", "macd_panel");
+          return;
+        }
+        var panel = document.getElementById("macd_panel");
+        var container = document.getElementById("macd_chart");
+        if (!charts.macd) {
+          charts.macd = createSubChart("macd_panel", "macd_chart", panel.clientHeight - 2);
+          charts.macdHist = charts.macd.addHistogramSeries({
+            priceFormat: { type: "price", precision: 2, minMove: 0.01 },
+            priceScaleId: "macd",
+          });
+          charts.macdLine = charts.macd.addLineSeries({
+            color: "#3182ce",
+            lineWidth: 2,
+            priceScaleId: "macd",
+          });
+          charts.macdSignal = charts.macd.addLineSeries({
+            color: "#dd6b20",
+            lineWidth: 2,
+            priceScaleId: "macd",
+          });
+          charts.macd.priceScale("macd").applyOptions({
+            scaleMargins: { top: 0.15, bottom: 0.15 },
+          });
+        } else {
+          charts.macd.applyOptions({
+            width: container.clientWidth,
+            height: panel.clientHeight - 2,
+          });
+        }
+        var histData = [];
+        for (var i = 0; i < candles.length && i < macdData.hist.length; i++) {
+          var v = macdData.hist[i];
+          if (v != null && !isNaN(v)) {
+            histData.push({
+              time: parseTime(candles[i].time),
+              value: v,
+              color: v >= 0 ? "rgba(49,130,206,0.45)" : "rgba(221,107,32,0.45)",
+            });
+          }
+        }
+        charts.macdHist.setData(histData);
+        charts.macdLine.setData(buildNullableLineData(candles, macdData.macd));
+        charts.macdSignal.setData(buildNullableLineData(candles, macdData.signal));
+      }
+
+      function updateHvChart(candles, hvs) {
+        if (!config.hv.enable || !hvs || hvs.length === 0) {
+          destroySubChart("hv", "hv_panel");
+          return;
+        }
+        var panel = document.getElementById("hv_panel");
+        var container = document.getElementById("hv_chart");
+        if (!charts.hv) {
+          charts.hv = createSubChart("hv_panel", "hv_chart", panel.clientHeight - 2);
+          charts.hvSeries = charts.hv.addLineSeries({
+            color: "#319795",
+            lineWidth: 2,
+          });
+        } else {
+          charts.hv.applyOptions({
+            width: container.clientWidth,
+            height: panel.clientHeight - 2,
+          });
+        }
+        charts.hvSeries.setData(buildNullableLineData(candles, hvs[0].values));
+      }
+
+      function updateMainOverlays(candles, data) {
+        clearOverlays();
+        if (config.sma.enable && data.smas) {
+          for (var s = 0; s < data.smas.length; s++) {
+            addLineOverlay(candles, data.smas[s].values, {
+              color: SMA_COLORS[s % SMA_COLORS.length],
+              lineWidth: 2,
+              title: "SMA" + data.smas[s].period,
+            });
+          }
+        }
+        if (config.ema.enable && data.emas) {
+          for (var e = 0; e < data.emas.length; e++) {
+            addLineOverlay(candles, data.emas[e].values, {
+              color: EMA_COLORS[e % EMA_COLORS.length],
+              lineWidth: 2,
+              lineStyle: LightweightCharts.LineStyle.Dashed,
+              title: "EMA" + data.emas[e].period,
+            });
+          }
+        }
+        if (config.bbands.enable && data.bbands) {
+          for (var b = 0; b < data.bbands.length; b++) {
+            var bb = data.bbands[b];
+            addLineOverlay(candles, bb.up, {
+              color: "rgba(144,164,174,0.9)",
+              lineWidth: 1,
+              title: "BB Up",
+            });
+            addLineOverlay(candles, bb.mid, {
+              color: "rgba(84,110,122,0.9)",
+              lineWidth: 1,
+              lineStyle: LightweightCharts.LineStyle.Dotted,
+              title: "BB Mid",
+            });
+            addLineOverlay(candles, bb.down, {
+              color: "rgba(144,164,174,0.9)",
+              lineWidth: 1,
+              title: "BB Down",
+            });
+          }
+        }
+        if (config.ichimoku.enable && data.ichimoku) {
+          for (var ic = 0; ic < ICHIMOKU_KEYS.length; ic++) {
+            var key = ICHIMOKU_KEYS[ic];
+            var values = data.ichimoku[key];
+            if (!values || values.length === 0) continue;
+            addLineOverlay(candles, values, {
+              color: ICHIMOKU_COLORS[ic],
+              lineWidth: ic >= 2 ? 1 : 2,
+              lineStyle:
+                ic >= 2
+                  ? LightweightCharts.LineStyle.Dashed
+                  : LightweightCharts.LineStyle.Solid,
+              title: ICHIMOKU_LABELS[ic],
+            });
+          }
+        }
+      }
+
+      function applyVisibleRange(candles) {
+        if (config.display.savedLogicalRange) {
+          charts.main.timeScale().setVisibleLogicalRange(config.display.savedLogicalRange);
+          return;
+        }
+        var total = candles.length;
+        var visible = Math.min(60, total);
+        if (total > visible) {
+          charts.main.timeScale().setVisibleLogicalRange({
+            from: total - visible,
+            to: total - 1,
+          });
+        } else {
+          charts.main.timeScale().fitContent();
+        }
+      }
+
+      function renderCharts(data) {
+        var candles = data.candles || [];
+        if (candles.length === 0) return;
+
+        ensureMainChart();
+        charts.candleSeries.setData(buildCandleData(candles));
+        updateMainOverlays(candles, data);
+
+        if (config.events.enable && data.events) {
+          charts.candleSeries.setMarkers(buildEventMarkers(candles, data.events));
+        } else {
+          charts.candleSeries.setMarkers([]);
         }
 
-        var controlWrapper = new google.visualization.ControlWrapper({
-          controlType: "ChartRangeFilter",
-          containerId: "filter_div",
-          options: {
-            filterColumnIndex: 0,
-            ui: {
-              chartType: "LineChart",
-              chartView: {
-                columns: [0, 4],
-              },
-              chartOptions: {
-                height: 80,
-                width: 900,
-                chartArea: { width: "100%", height: "100%" },
-                hAxis: { baselineColor: "none" },
-                legend: { position: "none" },
-              },
-            },
-          },
-        });
+        updateVolumeChart(candles);
+        updateRsiChart(candles, data.rsis);
+        updateMacdChart(candles, data.macds);
+        updateHvChart(candles, data.hvs);
+        applyVisibleRange(candles);
+      }
 
-        dashboard.bind(controlWrapper, charts);
-        dashboard.draw(dataTable);
+      function resizeCharts() {
+        var mainPanel = document.getElementById("main_chart_panel");
+        var mainContainer = document.getElementById("main_chart");
+        if (charts.main) {
+          charts.main.applyOptions({
+            width: mainContainer.clientWidth,
+            height: mainPanel.clientHeight - 2,
+          });
+        }
+        var subs = [
+          { chart: charts.volume, panel: "volume_panel", el: "volume_chart" },
+          { chart: charts.rsi, panel: "rsi_panel", el: "rsi_chart" },
+          { chart: charts.macd, panel: "macd_panel", el: "macd_chart" },
+          { chart: charts.hv, panel: "hv_panel", el: "hv_chart" },
+        ];
+        for (var i = 0; i < subs.length; i++) {
+          if (!subs[i].chart) continue;
+          var p = document.getElementById(subs[i].panel);
+          var c = document.getElementById(subs[i].el);
+          subs[i].chart.applyOptions({
+            width: c.clientWidth,
+            height: p.clientHeight - 2,
+          });
+        }
       }
 
       function send() {
-        if (config.api.enable === false) {
-          return;
-        }
+        if (config.api.enable === false) return;
+
         var params = {
           product_code: config.candlestick.product_code,
           limit: config.candlestick.limit,
           duration: config.candlestick.duration,
         };
-
-        if (config.sma.enable === true) {
-          params["sma"] = true;
-          params["smaPeriod1"] = config.sma.periods[0];
-          params["smaPeriod2"] = config.sma.periods[1];
-          params["smaPeriod3"] = config.sma.periods[2];
+        if (config.sma.enable) {
+          params.sma = true;
+          params.smaPeriod1 = config.sma.periods[0];
+          params.smaPeriod2 = config.sma.periods[1];
+          params.smaPeriod3 = config.sma.periods[2];
         }
-        if (config.ema.enable === true) {
-          params["ema"] = true;
-          params["emaPeriod1"] = config.ema.periods[0];
-          params["emaPeriod2"] = config.ema.periods[1];
-          params["emaPeriod3"] = config.ema.periods[2];
+        if (config.ema.enable) {
+          params.ema = true;
+          params.emaPeriod1 = config.ema.periods[0];
+          params.emaPeriod2 = config.ema.periods[1];
+          params.emaPeriod3 = config.ema.periods[2];
         }
-        if (config.bbands.enable === true) {
-          params["bbands"] = true;
-          params["bbandsN"] = config.bbands.n;
-          params["bbandsK"] = config.bbands.k;
+        if (config.bbands.enable) {
+          params.bbands = true;
+          params.bbandsN = config.bbands.n;
+          params.bbandsK = config.bbands.k;
         }
-        if (config.ichimoku.enable === true) {
-          params["ichimoku"] = true;
+        if (config.ichimoku.enable) params.ichimoku = true;
+        if (config.rsi.enable) {
+          params.rsi = true;
+          params.rsiPeriod = config.rsi.period;
         }
-        if (config.rsi.enable === true) {
-          params["rsi"] = true;
-          params["rsiPeriod"] = config.rsi.period;
+        if (config.macd.enable) {
+          params.macd = true;
+          params.macdFast = config.macd.fast;
+          params.macdSlow = config.macd.slow;
+          params.macdSignal = config.macd.signal;
         }
-        if (config.macd.enable === true) {
-          params["macd"] = true;
-          params["macdFast"] = config.macd.fast;
-          params["macdSlow"] = config.macd.slow;
-          params["macdSignal"] = config.macd.signal;
+        if (config.hv.enable) {
+          params.hv = true;
+          params.hvPeriod = config.hv.period;
         }
-        if (config.hv.enable === true) {
-          params["hv"] = true;
-          params["hvPeriod"] = config.hv.period;
-        }
-        if (config.events.enable === true) {
-          params["events"] = true;
+        if (config.events.enable) {
+          params.events = true;
+          params.strategy = config.events.strategy;
         }
 
         $.getJSON("/api/candle/", params)
           .done(function (data) {
-            console.log(data);
-            var candles = data.candles || [];
-            if (candles.length === 0) {
+            if (!data.candles || data.candles.length === 0) {
               $("#status").text("No candle data");
               return;
             }
+            renderCharts(data);
 
-            initConfigValues();
-            var dataTable = new google.visualization.DataTable();
-            dataTable.addColumn("datetime", "Time");
-            dataTable.addColumn("number", "Low");
-            dataTable.addColumn("number", "Open");
-            dataTable.addColumn("number", "Close");
-            dataTable.addColumn("number", "High");
-            if (config.volume.enable === true) {
-              config.volume.index = 5;
-              dataTable.addColumn("number", "Volume");
-              config.dataTable.index = 5;
-            } else {
-              config.dataTable.index = 4;
-            }
-            addMovingAverageColumns(dataTable, data.smas, "SMA", config.sma);
-            addMovingAverageColumns(dataTable, data.emas, "EMA", config.ema);
-            addBbandsColumns(dataTable, data.bbands);
-            addIchimokuColumns(dataTable, data.ichimoku);
-            addRsiColumns(dataTable, data.rsis);
-            addMacdColumns(dataTable, data.macds);
-            addHvColumns(dataTable, data.hvs);
-            if (config.events.enable === true) {
-              addEventColumns(dataTable, data.events);
-            }
-
-            var rows = [];
-            for (var i = 0; i < candles.length; i++) {
-              var candle = candles[i];
-              var row = [
-                new Date(candle.time),
-                candle.low,
-                candle.open,
-                candle.close,
-                candle.high,
-              ];
-              if (config.volume.enable === true) {
-                row.push(candle.volume || 0);
+            if (config.events.enable) {
+              renderBackTestRanking(data);
+              var profitText = "";
+              if (data.events && data.events.profit != null && !isNaN(data.events.profit)) {
+                profitText = "Profit: " + formatProfit(data.events.profit);
               }
-              appendMovingAverageValues(row, config.sma.values, i);
-              appendMovingAverageValues(row, config.ema.values, i);
-              appendBbandsValues(row, i);
-              appendIchimokuValues(row, i);
-              appendRsiValues(row, i);
-              appendMacdValues(row, i);
-              appendHvValues(row, i);
-              appendEventValues(row, candle.time);
-              rows.push(row);
-            }
-
-            dataTable.addRows(rows);
-            drawChart(dataTable);
-            if (
-              config.events.enable === true &&
-              config.events.profit != null &&
-              !isNaN(config.events.profit)
-            ) {
-              $("#profit_label").text(
-                "Profit: " + config.events.profit.toFixed(0),
-              );
+              if (data.back_test_strategy === "bbands" && data.best_bbands_n) {
+                profitText +=
+                  (profitText ? " | " : "") +
+                  "BB " +
+                  data.best_bbands_n +
+                  " x" +
+                  data.best_bbands_k;
+              } else if (data.best_ema_period1 && data.best_ema_period2) {
+                profitText +=
+                  (profitText ? " | " : "") +
+                  "EMA " +
+                  data.best_ema_period1 +
+                  "/" +
+                  data.best_ema_period2;
+              }
+              $("#profit_label").text(profitText);
             } else {
               $("#profit_label").text("");
+              $("#ranking_div").empty();
             }
             $("#status").text("");
           })
           .fail(function (xhr) {
-            console.error(xhr.responseText);
             $("#status").text("API error: " + xhr.status);
           });
       }
 
       function changeDuration(duration) {
         config.candlestick.duration = duration;
+        config.display.savedLogicalRange = null;
+        setDurationButtonActive(duration);
         send();
       }
 
-      google.charts.load("current", { packages: ["corechart", "controls"] });
       function initIndicatorParams() {
         config.sma.periods[0] = parseInt($("#inputSmaPeriod1").val(), 10) || 7;
         config.sma.periods[1] = parseInt($("#inputSmaPeriod2").val(), 10) || 14;
@@ -822,40 +851,36 @@
         config.hv.period = parseInt($("#inputHvPeriod").val(), 10) || 20;
       }
 
-      google.charts.setOnLoadCallback(function () {
-        initIndicatorParams();
-        send();
-        setInterval(send, config.api.interval);
-
-        $("#dashboard_div")
-          .mouseenter(function () {
-            config.api.enable = false;
-          })
-          .mouseleave(function () {
-            config.api.enable = true;
-          });
-        $("#inputSma").change(function () {
-          if (this.checked === true) {
-            config.sma.enable = true;
-          } else {
-            config.sma.enable = false;
-          }
-          send();
-        });
+      function bindControls() {
+        var toggles = [
+          ["#inputSma", "sma"],
+          ["#inputEma", "ema"],
+          ["#inputBbands", "bbands"],
+          ["#inputIchimoku", "ichimoku"],
+          ["#inputVolume", "volume"],
+          ["#inputRsi", "rsi"],
+          ["#inputMacd", "macd"],
+          ["#inputHv", "hv"],
+          ["#inputEvents", "events"],
+        ];
+        for (var i = 0; i < toggles.length; i++) {
+          (function (sel, key) {
+            $(sel).change(function () {
+              config[key].enable = this.checked === true;
+              send();
+            });
+          })(toggles[i][0], toggles[i][1]);
+        }
         $("#inputSmaPeriod1").change(function () {
-          config.sma.periods[0] = parseInt(this.value);
+          config.sma.periods[0] = parseInt(this.value, 10);
           send();
         });
         $("#inputSmaPeriod2").change(function () {
-          config.sma.periods[1] = parseInt(this.value);
+          config.sma.periods[1] = parseInt(this.value, 10);
           send();
         });
         $("#inputSmaPeriod3").change(function () {
-          config.sma.periods[2] = parseInt(this.value);
-          send();
-        });
-        $("#inputEma").change(function () {
-          config.ema.enable = this.checked === true;
+          config.sma.periods[2] = parseInt(this.value, 10);
           send();
         });
         $("#inputEmaPeriod1").change(function () {
@@ -870,10 +895,6 @@
           config.ema.periods[2] = parseInt(this.value, 10);
           send();
         });
-        $("#inputBbands").change(function () {
-          config.bbands.enable = this.checked === true;
-          send();
-        });
         $("#inputBbandsN").change(function () {
           config.bbands.n = parseInt(this.value, 10);
           send();
@@ -882,24 +903,8 @@
           config.bbands.k = parseFloat(this.value);
           send();
         });
-        $("#inputIchimoku").change(function () {
-          config.ichimoku.enable = this.checked === true;
-          send();
-        });
-        $("#inputVolume").change(function () {
-          config.volume.enable = this.checked === true;
-          send();
-        });
-        $("#inputRsi").change(function () {
-          config.rsi.enable = this.checked === true;
-          send();
-        });
         $("#inputRsiPeriod").change(function () {
           config.rsi.period = parseInt(this.value, 10) || 14;
-          send();
-        });
-        $("#inputMacd").change(function () {
-          config.macd.enable = this.checked === true;
           send();
         });
         $("#inputMacdFast").change(function () {
@@ -914,79 +919,134 @@
           config.macd.signal = parseInt(this.value, 10) || 9;
           send();
         });
-        $("#inputHv").change(function () {
-          config.hv.enable = this.checked === true;
-          send();
-        });
         $("#inputHvPeriod").change(function () {
           config.hv.period = parseInt(this.value, 10) || 20;
           send();
         });
-        $("#inputEvents").change(function () {
-          config.events.enable = this.checked === true;
+        $("#inputBacktestStrategy").change(function () {
+          config.events.strategy = this.value;
           send();
+        });
+      }
+
+      $(function () {
+        initIndicatorParams();
+        config.events.strategy = $("#inputBacktestStrategy").val() || "ema";
+        setDurationButtonActive(config.candlestick.duration);
+        bindControls();
+        send();
+        setInterval(send, config.api.interval);
+
+        $(".chart-area")
+          .mouseenter(function () {
+            config.api.enable = false;
+          })
+          .mouseleave(function () {
+            config.api.enable = true;
+          });
+
+        window.addEventListener("resize", function () {
+          resizeCharts();
         });
       });
     </script>
   </head>
   <body>
-    <div>
-      <button onclick="changeDuration('1s')">1s</button>
-      <button onclick="changeDuration('1m')">1m</button>
-      <button onclick="changeDuration('1h')">1h</button>
-      <button onclick="changeDuration('1mo')">1mo</button>
-      <button onclick="changeDuration('1y')">1y</button>
-    </div>
-    <div>
-      SMA <input id="inputSma" type="checkbox" /> Period
-      <input id="inputSmaPeriod1" type="number" value="7" min="1" style="width: 40px" />
-      <input id="inputSmaPeriod2" type="number" value="14" min="1" style="width: 40px" />
-      <input id="inputSmaPeriod3" type="number" value="21" min="1" style="width: 40px" />
-    </div>
-    <div>
-      EMA <input id="inputEma" type="checkbox" /> Period
-      <input id="inputEmaPeriod1" type="number" value="12" min="1" style="width: 40px" />
-      <input id="inputEmaPeriod2" type="number" value="26" min="1" style="width: 40px" />
-      <input id="inputEmaPeriod3" type="number" value="50" min="1" style="width: 40px" />
-    </div>
-    <div>
-      BBands <input id="inputBbands" type="checkbox" />
-      N <input id="inputBbandsN" type="number" value="20" min="2" style="width: 40px" />
-      K <input id="inputBbandsK" type="number" value="2" min="0.1" step="0.1" style="width: 40px" />
-    </div>
-    <div>
-      一目 <input id="inputIchimoku" type="checkbox" />
-      (9 / 26 / 52 / 先行26)
-    </div>
-    <div>
-      Volume <input id="inputVolume" type="checkbox" />
-    </div>
-    <div>
-      RSI <input id="inputRsi" type="checkbox" />
-      Period <input id="inputRsiPeriod" type="number" value="14" min="2" style="width: 40px" />
-    </div>
-    <div>
-      MACD <input id="inputMacd" type="checkbox" />
-      Fast <input id="inputMacdFast" type="number" value="12" min="2" style="width: 40px" />
-      Slow <input id="inputMacdSlow" type="number" value="26" min="3" style="width: 40px" />
-      Signal <input id="inputMacdSignal" type="number" value="9" min="2" style="width: 40px" />
-    </div>
-    <div>
-      HV <input id="inputHv" type="checkbox" />
-      Period <input id="inputHvPeriod" type="number" value="20" min="2" style="width: 40px" />
-    </div>
-    <div>
-      Events <input id="inputEvents" type="checkbox" />
+    <header class="app-header">
+      <h1>BTC_JPY Chart</h1>
+      <div class="duration-group">
+        <button type="button" data-duration="1s" onclick="changeDuration('1s')">1s</button>
+        <button type="button" data-duration="1m" onclick="changeDuration('1m')">1m</button>
+        <button type="button" data-duration="1h" onclick="changeDuration('1h')">1h</button>
+        <button type="button" data-duration="1mo" onclick="changeDuration('1mo')">1mo</button>
+        <button type="button" data-duration="1y" onclick="changeDuration('1y')">1y</button>
+      </div>
+      <div id="status"></div>
+    </header>
+
+    <section class="controls-panel">
+      <div class="control-card">
+        <label>SMA</label>
+        <input id="inputSma" type="checkbox" />
+        <input id="inputSmaPeriod1" type="number" value="7" min="1" />
+        <input id="inputSmaPeriod2" type="number" value="14" min="1" />
+        <input id="inputSmaPeriod3" type="number" value="21" min="1" />
+      </div>
+      <div class="control-card">
+        <label>EMA</label>
+        <input id="inputEma" type="checkbox" />
+        <input id="inputEmaPeriod1" type="number" value="12" min="1" />
+        <input id="inputEmaPeriod2" type="number" value="26" min="1" />
+        <input id="inputEmaPeriod3" type="number" value="50" min="1" />
+      </div>
+      <div class="control-card">
+        <label>BBands</label>
+        <input id="inputBbands" type="checkbox" />
+        N <input id="inputBbandsN" type="number" value="20" min="2" />
+        K <input id="inputBbandsK" type="number" value="2" min="0.1" step="0.1" />
+      </div>
+      <div class="control-card">
+        <label>一目</label>
+        <input id="inputIchimoku" type="checkbox" />
+        <span class="hint">9/26/52</span>
+      </div>
+      <div class="control-card">
+        <label>Volume</label>
+        <input id="inputVolume" type="checkbox" />
+      </div>
+      <div class="control-card">
+        <label>RSI</label>
+        <input id="inputRsi" type="checkbox" />
+        <input id="inputRsiPeriod" type="number" value="14" min="2" />
+      </div>
+      <div class="control-card">
+        <label>MACD</label>
+        <input id="inputMacd" type="checkbox" />
+        <input id="inputMacdFast" type="number" value="12" min="2" />
+        <input id="inputMacdSlow" type="number" value="26" min="3" />
+        <input id="inputMacdSignal" type="number" value="9" min="2" />
+      </div>
+      <div class="control-card">
+        <label>HV</label>
+        <input id="inputHv" type="checkbox" />
+        <input id="inputHvPeriod" type="number" value="20" min="2" />
+      </div>
+    </section>
+
+    <section class="events-bar">
+      <label>Events</label>
+      <input id="inputEvents" type="checkbox" />
+      <label>Strategy</label>
+      <select id="inputBacktestStrategy">
+        <option value="ema">EMA Cross</option>
+        <option value="bbands">Bollinger Bands</option>
+      </select>
       <span id="profit_label"></span>
-    </div>
-    <div id="status"></div>
-    <div id="dashboard_div">
-      <div id="chart_div"></div>
-      <div id="volume_div"></div>
-      <div id="rsi_div"></div>
-      <div id="macd_div"></div>
-      <div id="hv_div"></div>
-      <div id="filter_div"></div>
-    </div>
+      <div id="ranking_div"></div>
+    </section>
+
+    <p class="chart-hint">ドラッグでスクロール / ホイールでズーム / マウスオーバーで更新一時停止</p>
+
+    <section class="chart-area">
+      <div id="main_chart_panel" class="lw-panel">
+        <div id="main_chart" style="width: 100%; height: 100%"></div>
+      </div>
+      <div id="volume_panel" class="lw-panel sub-panel panel-hidden">
+        <span class="panel-label">Volume</span>
+        <div id="volume_chart" style="width: 100%; height: 100%"></div>
+      </div>
+      <div id="rsi_panel" class="lw-panel sub-panel panel-hidden">
+        <span class="panel-label">RSI</span>
+        <div id="rsi_chart" style="width: 100%; height: 100%"></div>
+      </div>
+      <div id="macd_panel" class="lw-panel sub-panel macd-panel panel-hidden">
+        <span class="panel-label">MACD</span>
+        <div id="macd_chart" style="width: 100%; height: 100%"></div>
+      </div>
+      <div id="hv_panel" class="lw-panel sub-panel panel-hidden">
+        <span class="panel-label">HV</span>
+        <div id="hv_chart" style="width: 100%; height: 100%"></div>
+      </div>
+    </section>
   </body>
 </html>

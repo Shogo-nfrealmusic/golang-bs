@@ -19,6 +19,12 @@ type ConfigList struct {
 	Dbname string
 	SQLDriver string
 	Port int
+
+	BackTest bool
+	UsePercet float64
+	DataLimit int
+	StopLimitPercet float64
+	NumRanking int
 }
 
 var Config ConfigList
@@ -53,5 +59,10 @@ func init() {
 		Dbname: cfg.Section("db").Key("name").String(),
 		SQLDriver: cfg.Section("db").Key("driver").String(),
 		Port: cfg.Section("web").Key("port").MustInt(8080),
+		BackTest: cfg.Section("gotrading").Key("back_test").MustBool(false),
+		UsePercet: cfg.Section("gotrading").Key("use_percent").MustFloat64(0.9),
+		DataLimit: cfg.Section("gotrading").Key("data_limit").MustInt(365),
+		StopLimitPercet: cfg.Section("gotrading").Key("stop_limit_percent").MustFloat64(0.9),
+		NumRanking: cfg.Section("gotrading").Key("num_ranking").MustInt(3),
 	}
 }
