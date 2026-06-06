@@ -96,6 +96,13 @@
           indexes: [],
           values: [],
         },
+        events: {
+          enable: false,
+          indexBuy: null,
+          indexSell: null,
+          map: null,
+          profit: null,
+        },
       };
 
       function initConfigValues() {
@@ -112,6 +119,57 @@
         config.macd.set = null;
         config.hv.indexes = [];
         config.hv.values = [];
+        config.events.indexBuy = null;
+        config.events.indexSell = null;
+        config.events.map = null;
+        config.events.profit = null;
+      }
+
+      function candleTimeKey(timeValue) {
+        return new Date(timeValue).getTime();
+      }
+
+      function buildEventMap(eventsData) {
+        var map = { buy: {}, sell: {} };
+        if (!eventsData || !eventsData.signals) {
+          return map;
+        }
+        for (var i = 0; i < eventsData.signals.length; i++) {
+          var sig = eventsData.signals[i];
+          var key = candleTimeKey(sig.time);
+          if (sig.side === "BUY") {
+            map.buy[key] = sig.price;
+          }
+          if (sig.side === "SELL") {
+            map.sell[key] = sig.price;
+          }
+        }
+        return map;
+      }
+
+      function addEventColumns(dataTable, eventsData) {
+        if (!eventsData || !eventsData.signals || eventsData.signals.length === 0) {
+          return;
+        }
+        config.dataTable.index += 1;
+        config.events.indexBuy = config.dataTable.index;
+        dataTable.addColumn("number", "Buy");
+        config.dataTable.index += 1;
+        config.events.indexSell = config.dataTable.index;
+        dataTable.addColumn("number", "Sell");
+        config.events.map = buildEventMap(eventsData);
+        config.events.profit = eventsData.profit;
+      }
+
+      function appendEventValues(row, candleTime) {
+        if (!config.events.map) {
+          return;
+        }
+        var key = candleTimeKey(candleTime);
+        var buyPrice = config.events.map.buy[key];
+        var sellPrice = config.events.map.sell[key];
+        row.push(buyPrice != null ? buyPrice : null);
+        row.push(sellPrice != null ? sellPrice : null);
       }
 
       function appendOverlayIndexes(cols, indexes) {
@@ -144,6 +202,12 @@
         }
         if (config.ichimoku.set) {
           appendOverlayIndexes(cols, config.ichimoku.set.indexes);
+        }
+        if (config.events.indexBuy !== null && config.events.indexSell !== null) {
+          appendOverlayIndexes(cols, [
+            config.events.indexBuy,
+            config.events.indexSell,
+          ]);
         }
         return cols;
       }
@@ -222,6 +286,22 @@
             seriesIndex += 1;
           }
         }
+        if (config.events.indexBuy !== null) {
+          series[seriesIndex] = {
+            type: "scatter",
+            pointSize: 10,
+            color: "#0f9d58",
+          };
+          seriesIndex += 1;
+        }
+        if (config.events.indexSell !== null) {
+          series[seriesIndex] = {
+            type: "scatter",
+            pointSize: 10,
+            color: "#a52714",
+          };
+          seriesIndex += 1;
+        }
         return series;
       }
 
@@ -230,7 +310,8 @@
           config.sma.indexes.length > 0 ||
           config.ema.indexes.length > 0 ||
           config.bbands.sets.length > 0 ||
-          config.ichimoku.set !== null
+          config.ichimoku.set !== null ||
+          config.events.indexBuy !== null
         );
       }
 
@@ -636,6 +717,9 @@
           params["hv"] = true;
           params["hvPeriod"] = config.hv.period;
         }
+        if (config.events.enable === true) {
+          params["events"] = true;
+        }
 
         $.getJSON("/api/candle/", params)
           .done(function (data) {
@@ -667,6 +751,9 @@
             addRsiColumns(dataTable, data.rsis);
             addMacdColumns(dataTable, data.macds);
             addHvColumns(dataTable, data.hvs);
+            if (config.events.enable === true) {
+              addEventColumns(dataTable, data.events);
+            }
 
             var rows = [];
             for (var i = 0; i < candles.length; i++) {
@@ -688,11 +775,23 @@
               appendRsiValues(row, i);
               appendMacdValues(row, i);
               appendHvValues(row, i);
+              appendEventValues(row, candle.time);
               rows.push(row);
             }
 
             dataTable.addRows(rows);
             drawChart(dataTable);
+            if (
+              config.events.enable === true &&
+              config.events.profit != null &&
+              !isNaN(config.events.profit)
+            ) {
+              $("#profit_label").text(
+                "Profit: " + config.events.profit.toFixed(0),
+              );
+            } else {
+              $("#profit_label").text("");
+            }
             $("#status").text("");
           })
           .fail(function (xhr) {
@@ -823,6 +922,10 @@
           config.hv.period = parseInt(this.value, 10) || 20;
           send();
         });
+        $("#inputEvents").change(function () {
+          config.events.enable = this.checked === true;
+          send();
+        });
       });
     </script>
   </head>
@@ -871,6 +974,10 @@
     <div>
       HV <input id="inputHv" type="checkbox" />
       Period <input id="inputHvPeriod" type="number" value="20" min="2" style="width: 40px" />
+    </div>
+    <div>
+      Events <input id="inputEvents" type="checkbox" />
+      <span id="profit_label"></span>
     </div>
     <div id="status"></div>
     <div id="dashboard_div">

@@ -20,6 +20,7 @@ type DataFrameCandle struct {
 	Rsis    []Rsi     `json:"rsis,omitempty"`
 	Macds   []Macd    `json:"macds,omitempty"`
 	Hvs     []Hv      `json:"hvs,omitempty"`
+	Events  *SignalEvents `json:"events,omitempty"`
 }
 
 type Sma struct {
@@ -272,4 +273,13 @@ func floatsToNullableJSON(values []float64) []*float64 {
 		}
 	}
 	return out
+}
+
+func (df *DataFrameCandle) AddEvents(timeTime time.Time) bool {
+	signalEvents := GetSignalEventsAfterTime(timeTime)
+	if signalEvents != nil && len(signalEvents.Signals) > 0 {
+		df.Events = signalEvents
+		return true
+	}
+	return false
 }

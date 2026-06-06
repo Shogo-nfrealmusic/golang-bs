@@ -240,6 +240,11 @@ func apiCandleHandler(w http.ResponseWriter, r *http.Request) {
 		df.AddHistoricalVolatility(period)
 	}
 
+	events := r.URL.Query().Get("events")
+	if events != "" && len(df.Candles) > 0 {
+		df.AddEvents(df.Candles[0].Time)
+	}
+
 	js, err := json.Marshal(df)
 	if err != nil {
 		APIError(w, err, http.StatusInternalServerError)
